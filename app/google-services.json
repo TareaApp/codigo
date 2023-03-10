@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "423743826330",
+    "project_id": "tareapp-3902f",
+    "storage_bucket": "tareapp-3902f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423743826330:android:603cea5b86f92b1853b223",
+        "android_client_info": {
+          "package_name": "com.example.tareApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423743826330-om0c4hcai1q331dddmric2gn5mf37gmc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgq6xCnB55Sjg0lowiOH8YSDJKcJIqC-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423743826330-om0c4hcai1q331dddmric2gn5mf37gmc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

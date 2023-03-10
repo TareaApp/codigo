@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical"
+    android:background="#e2f2f2" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:paddingStart="10pt"
+        android:paddingLeft="10pt"
+        android:paddingEnd="10pt"
+        android:paddingBottom="10pt">
+
+        <TextView
+            android:id="@+id/TaskTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingTop="6pt"
+            android:paddingBottom="12pt"
+            android:text="Nueva tarea"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#004262"
+            android:textSize="15pt" />
+
+        <TextView
+            android:id="@+id/NameTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingTop="3pt"
+            android:paddingBottom="3pt"
+            android:text="Nombre*:"
+            android:textColor="#1d5874"
+            android:textSize="10pt" />
+
+        <EditText
+            android:id="@+id/NameField"
+            android:layout_width="fill_parent"
+            android:layout_height="34dp"
+            android:background="@drawable/borde_editext"
+            android:inputType="text"
+            android:paddingLeft="4pt"
+            />
+
+        <TextView
+            android:id="@+id/CategoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="3pt"
+            android:paddingBottom="3pt"
+            android:text="Categoría*:"
+            android:textColor="#1d5874"
+            android:textSize="10pt" />
+
+        <EditText
+            android:id="@+id/CategoryField"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:background="@drawable/borde_editext"
+            android:inputType="text"
+            android:paddingLeft="4pt" />
+
+        <TextView
+            android:id="@+id/DescriptionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="3pt"
+            android:paddingBottom="3pt"
+            android:text="Descripción:"
+            android:textColor="#1d5874"
+            android:textSize="10pt" />
+
+        <EditText
+            android:id="@+id/DescriptionField"
+            android:layout_width="match_parent"
+            android:layout_height="138dp"
+            android:height="138dp"
+            android:background="@drawable/borde_editext"
+            android:inputType="text"
+            android:paddingLeft="4pt"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:id="@+id/DurationTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingTop="3pt"
+            android:text="Duración estimada:"
+            android:textColor="#1d5874"
+            android:textSize="10pt" />
+
+        <LinearLayout
+            android:layout_width="321dp"
+            android:layout_height="108dp"
+            android:layout_margin="12pt"
+            android:orientation="horizontal">
+
+            <NumberPicker
+                android:id="@+id/numberPickerHours"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="horas, "
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp" />
+
+            <NumberPicker
+                android:id="@+id/numberPickerMinutes"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="minutos"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/buttonToForm"
+                android:layout_width="135dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:backgroundTint="#223752"
+                android:text="Añadir"
+                android:textSize="18sp"
+                app:cornerRadius="9pt"
+                android:onClick="sendFormButton"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
