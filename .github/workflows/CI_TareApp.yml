@@ -30,7 +30,7 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
-          #VALIDATE_ALL_CODEBASE: false # Descomentada solo analiza los cambios del último commit, comentada t0do el proyecto
+          VALIDATE_ALL_CODEBASE: false # Descomentada solo analiza los cambios del último commit, comentada t0do el proyecto
           FILTER_REGEX_INCLUDE: .*src/.* # Solo quiero que me busque errores míos, no de lo que crea Android Studio
           FILTER_REGEX_EXCLUDE: .*res/.* # Quiero que me diga errores de código, no de los XML
 
