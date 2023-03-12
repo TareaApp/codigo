@@ -6,7 +6,7 @@ on:
 
 jobs:
   pipeline:
-    # Servidor donde se ejecuta el worflow, ubuntu para Android es el más común dicen
+    # Servidor donde se eejecuta el worflow, ubuntu para Android es el más común dicen
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # Se hace un check-out del repositorio para que el workflow pueda acceder a él
