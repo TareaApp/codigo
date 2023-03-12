@@ -2,7 +2,7 @@ name: Android CI for TareApp
 on:
   push:
     # El workflow se activa con un push a dev
-    branches: [ dev ]
+    branches: [ DEV ]
 
 jobs:
   pipeline:
