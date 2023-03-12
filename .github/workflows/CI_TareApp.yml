@@ -1,0 +1,42 @@
+name: Android CI for TareApp
+on:
+  push:
+    # El workflow se activa con un push a dev
+    branches: [ dev ]
+
+jobs:
+  pipeline:
+    # Servidor donde se eejecuta el worflow, ubuntu para Android es el más común dicen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 # Se hace un check-out del repositorio para que el workflow pueda acceder a él
+        #with:
+          #fetch-depth: 0 # Para que se traiga solo el último commit y sea más rápido
+
+      - name: set up Java JDK 11 # Necesario para cargar el gradle (esto mirará que la app compile y que los test pasen)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      # Compila la aplicación, sería como darle al play en el editor. Tarda un poco, así que lo comento, pero es parte del pipeline hacer un Build
+#      - name: build app with Gradle
+#        run: ./gradlew assemble
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false # Descomentada solo analiza los cambios del último commit, comentada t0do el proyecto
+          FILTER_REGEX_INCLUDE: .*src/.* # Solo quiero que me busque errores míos, no de lo que crea Android Studio
+          FILTER_REGEX_EXCLUDE: .*res/.* # Quiero que me diga errores de código, no de los XML
+
+      - name: Unit Tests # Ejecuta t0do lo que tenga @Test (creo)
+        run: ./gradlew testDebugUnitTest
+
+      - name: Android Test Report # Crea un reporte de los test pasados y los que no
+        uses: asadmansr/android-test-report-action@v1.2.0
+        if: ${{ always() }} # Significa que, aunque haya un test que no pase, el workflow no pare y llegue a generar el reporte
