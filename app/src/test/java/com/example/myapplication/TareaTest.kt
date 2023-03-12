@@ -13,7 +13,7 @@ class TareaTest {
 
     @RelaxedMockK
     val tar = mockk<Tarea>()
-        // prueba empezar pipeline dos
+        // prueba empezar pipelinedos
 
     @Test
     fun test_Tarea_Existe() = runBlocking {
