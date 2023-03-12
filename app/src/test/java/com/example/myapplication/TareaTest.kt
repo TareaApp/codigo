@@ -13,7 +13,8 @@ class TareaTest {
 
     @RelaxedMockK
     val tar = mockk<Tarea>()
-        // prueba empezar pipelinedos
+
+    var variableSinUtilizar = 2; // Para prueba de análisis estático
 
     @Test
     fun test_Tarea_Existe() = runBlocking {
@@ -26,5 +27,11 @@ class TareaTest {
         coEvery { tar.existe() } returns false
         assertFalse(tar.existe())
     }
+
+
+
+
+
+
 
 }
