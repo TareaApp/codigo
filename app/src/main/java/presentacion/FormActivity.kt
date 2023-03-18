@@ -24,7 +24,17 @@ class FormActivity : AppCompatActivity() {
     private lateinit var numberPickerMinutos: NumberPicker
 
 
+    fun getNombreTarea() : EditText{
+        return this.nombreTarea
+    }
 
+    fun getCatergoriaTarea() : EditText{
+        return this.categoriaTarea
+    }
+
+    fun getDescripcionTarea() : EditText{
+        return this.descripcionTarea
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)

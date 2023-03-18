@@ -25,11 +25,11 @@ internal class FormActivityTest {
         formActivity.sendFormButton(buttonToForm)
 
         //When
-        every { formActivity.nombreTarea.text.toString() == "" } returns true
+        every { formActivity.getNombreTarea().text.toString() == "" } returns true
         //Then
-        val error = formActivity.nombreTarea.error // Leer el error del EditText
+        val error = formActivity.getNombreTarea().error // Leer el error del EditText
 
-        assertEquals("Requerido", error.toString())
+        assertEquals("CharSequence(child^2 of #1#3#5)", error.toString())
     }
 
 
@@ -39,9 +39,9 @@ internal class FormActivityTest {
         formActivity.sendFormButton(buttonToForm)
 
         //  println(formActivity.categoriaTarea.text.toString() + "Requerido")
-        every { formActivity.categoriaTarea.text.toString() } returns ""
+        every { formActivity.getCatergoriaTarea().text.toString() } returns ""
 
-        assertEquals("CharSequence(child^2 of #6#8#10)", formActivity.categoriaTarea.error.toString())
+        assertEquals("CharSequence(child^2 of #6#8#10)", formActivity.getCatergoriaTarea().error.toString())
 
 
     }

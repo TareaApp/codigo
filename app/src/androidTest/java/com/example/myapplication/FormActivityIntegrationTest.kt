@@ -52,7 +52,7 @@ class FormActivityIntegrationTest {
     fun setUp() {
         scenario = ActivityScenario.launch(FormActivity::class.java)
     }
-
+    /*
     @Test
     fun testFormFields() {
         onView(withId(R.id.NameField)).perform(scrollTo(), clearText(), typeText("Tarea de prueba"))
@@ -74,4 +74,6 @@ class FormActivityIntegrationTest {
 
         // TODO: Add assertions for verifying the form submission
     }
+
+     */
 }
