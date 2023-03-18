@@ -1,6 +1,7 @@
 package negocio
 
 import com.google.firebase.firestore.FirebaseFirestore
+import integracion.TareaDB
 import kotlinx.coroutines.tasks.await
 
 class Tarea {
@@ -9,7 +10,7 @@ class Tarea {
     private lateinit var descripcion: String
     private var hora = 0
     private var minutos: Int = 0
-    private val db = FirebaseFirestore.getInstance()
+    private val tDB = TareaDB()
 
     constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = ""){
         this.nombre = nombre.trim()
@@ -21,16 +22,28 @@ class Tarea {
     constructor()
 
     suspend fun existe(): Boolean{
-        val doc = db.collection("Tareas").document("$nombre-$asignatura".uppercase()).get().await()
-        return doc.exists()
+        return tDB.existe(this)
     }
 
-    fun guardar(){
-        val id = "$nombre-$asignatura".uppercase().trim()
-        db.collection("Tareas").document(id).set(
-            hashMapOf("Nombre" to nombre, "Asignatura" to asignatura, "Descripcion" to descripcion,
-                "Duracion Horas" to hora, "Duracion Minutos" to minutos)
-        )
+    fun guardar(): Boolean{
+        return tDB.guardar(this)
+    }
+
+    fun getNombre(): String{
+        return nombre
+    }
+    fun getDescription(): String{
+        return descripcion
+    }
+    fun getAsignatura(): String{
+        return asignatura
+    }
+
+    fun getHora(): Int{
+        return hora
+    }
+    fun getMinuto(): Int{
+        return minutos
     }
 
 }

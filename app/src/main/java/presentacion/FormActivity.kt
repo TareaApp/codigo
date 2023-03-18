@@ -61,15 +61,10 @@ class FormActivity : AppCompatActivity() {
             categoriaTarea.error = "Requerido"
             valido = false
         }
-        /*
-        if (descripcionTarea.text.toString() == "") {
-            descripcionTarea.error = "Requerido"
-            valido = false
-        }
-            */
         if (!valido)
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
+            Toast.makeText(applicationContext, "que es lo k manin" , Toast.LENGTH_LONG).show()
             var t = Tarea(nombreTarea.text.toString(), categoriaTarea.text.toString(), numberPickerHoras.value, numberPickerMinutos.value, descripcionTarea.text.toString())
             CoroutineScope(Dispatchers.IO).launch {
                 if (!t.existe()) {
