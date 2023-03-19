@@ -11,26 +11,17 @@ class Tarea {
     private var hora = 0
     private var minutos: Int = 0
 
-    private var diaPlanificacion : Int =  0
 
-    private  var mesPlanificacion :Int =0
-    private  var horaPlanificacion :Int=0
-
-    private  var minPlanificacion :Int=0
 
     private val tDB = TareaDB()
 
-    constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = "",mesPlanificacion:Int ,diaPlanificacion :Int, horaPlanificacion :Int ,minPlanificacion :Int){
+    constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = ""){
         this.nombre = nombre.trim()
         this.asignatura = asignatura.trim()
         this.hora = hora
         this.minutos = minutos
         this.descripcion = descripcion
 
-        this.diaPlanificacion = diaPlanificacion
-        this.horaPlanificacion=horaPlanificacion
-        this.mesPlanificacion = mesPlanificacion
-        this.minPlanificacion=minPlanificacion
     }
     constructor()
 
