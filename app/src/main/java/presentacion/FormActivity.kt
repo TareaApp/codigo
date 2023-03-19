@@ -23,18 +23,11 @@ class FormActivity : AppCompatActivity() {
     private lateinit var numberPickerHoras: NumberPicker
     private lateinit var numberPickerMinutos: NumberPicker
 
+    private lateinit var numberPickerPlanMes: NumberPicker
+    private lateinit var numberPickerPlanDia: NumberPicker
+    private lateinit var numberPickerPlanHora: NumberPicker
+    private lateinit var numberPickerPlanMinutos: NumberPicker
 
-    fun getNombreTarea() : EditText{
-        return this.nombreTarea
-    }
-
-    fun getCatergoriaTarea() : EditText{
-        return this.categoriaTarea
-    }
-
-    fun getDescripcionTarea() : EditText{
-        return this.descripcionTarea
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
@@ -43,6 +36,13 @@ class FormActivity : AppCompatActivity() {
         descripcionTarea = findViewById(R.id.DescriptionField)
         numberPickerHoras = findViewById<NumberPicker>(R.id.numberPickerHours)
         numberPickerMinutos = findViewById<NumberPicker>(R.id.numberPickerMinutes)
+
+        numberPickerPlanMes= findViewById<NumberPicker>(R.id.numberPickerMonth)
+        numberPickerPlanDia= findViewById<NumberPicker>(R.id.numberPickerDay)
+        numberPickerPlanHora= findViewById<NumberPicker>(R.id.numberPickerHoraPlan)
+        numberPickerPlanMinutos= findViewById<NumberPicker>(R.id.numberPickerMinPlan)
+
+
         setUpNumberPickers()
     }
 
@@ -75,7 +75,8 @@ class FormActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
             Toast.makeText(applicationContext, "que es lo k manin" , Toast.LENGTH_LONG).show()
-            var t = Tarea(nombreTarea.text.toString(), categoriaTarea.text.toString(), numberPickerHoras.value, numberPickerMinutos.value, descripcionTarea.text.toString())
+
+            var t = Tarea(nombreTarea.text.toString(), categoriaTarea.text.toString(), numberPickerHoras.value, numberPickerMinutos.value, descripcionTarea.text.toString(),  numberPickerPlanMes.value,numberPickerPlanDia.value,numberPickerPlanHora.value,numberPickerPlanMinutos.value)
             CoroutineScope(Dispatchers.IO).launch {
                 if (!t.existe()) {
                     t.guardar()
@@ -116,6 +117,21 @@ class FormActivity : AppCompatActivity() {
         numberPickerMinutos.maxValue = 60
         numberPickerMinutos.wrapSelectorWheel = true
 
+        numberPickerPlanMes.minValue = 0
+        numberPickerPlanMes.maxValue = 12
+        numberPickerPlanMes.wrapSelectorWheel = true
+
+        numberPickerPlanHora.minValue = 0
+        numberPickerPlanHora.maxValue = 23
+        numberPickerPlanHora.wrapSelectorWheel = true
+
+        numberPickerPlanDia.minValue = 0
+        numberPickerPlanDia.maxValue = 31
+        numberPickerPlanDia.wrapSelectorWheel = true
+
+        numberPickerPlanMinutos.minValue = 0
+        numberPickerPlanMinutos.maxValue = 60
+        numberPickerPlanMinutos.wrapSelectorWheel = true
     }
 
 }
