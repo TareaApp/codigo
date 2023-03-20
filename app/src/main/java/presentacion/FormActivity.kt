@@ -90,7 +90,6 @@ class FormActivity : AppCompatActivity() {
         if (!valido)
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
-            Toast.makeText(applicationContext, msg_exito , Toast.LENGTH_LONG).show()
 
             if(myCheckBox.isChecked()){
                 fechaSeleccionada = Date(year, month, dayOfMonth,numberPickerPlanHoras.value, numberPickerPlanMinutos.value)
@@ -135,12 +134,12 @@ class FormActivity : AppCompatActivity() {
 
         /* Me invento que como mínimo la tarea tiene que durar un minuto porque si no habría tareas con 0 minutos y 0 horas*/
         numberPickerMinutos.minValue = 0
-        numberPickerMinutos.maxValue = 60
+        numberPickerMinutos.maxValue = 59
         numberPickerMinutos.wrapSelectorWheel = true
 
 
         numberPickerPlanMinutos.minValue = 0
-        numberPickerPlanMinutos.maxValue = 60
+        numberPickerPlanMinutos.maxValue = 59
         numberPickerPlanMinutos.wrapSelectorWheel = true
 
         numberPickerPlanHoras.minValue = 0
