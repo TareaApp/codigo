@@ -90,7 +90,7 @@ class FormActivity : AppCompatActivity() {
         if (!valido)
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
-            Toast.makeText(applicationContext, "que es lo k manin" , Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, msg_exito , Toast.LENGTH_LONG).show()
 
             if(myCheckBox.isChecked()){
                 fechaSeleccionada = Date(year, month, dayOfMonth,numberPickerPlanHoras.value, numberPickerPlanMinutos.value)
