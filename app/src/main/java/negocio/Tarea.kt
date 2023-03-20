@@ -2,6 +2,7 @@ package negocio
 
 import com.google.firebase.firestore.FirebaseFirestore
 import integracion.TareaDB
+import java.util.Date
 import kotlinx.coroutines.tasks.await
 
 class Tarea {
@@ -11,16 +12,17 @@ class Tarea {
     private var hora = 0
     private var minutos: Int = 0
 
-
+    private var fechaPlan : Date? = null
 
     private val tDB = TareaDB()
 
-    constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = ""){
+    constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = "",fechaPlan : Date?){
         this.nombre = nombre.trim()
         this.asignatura = asignatura.trim()
         this.hora = hora
         this.minutos = minutos
         this.descripcion = descripcion
+        this.fechaPlan = fechaPlan
 
     }
     constructor()
@@ -49,6 +51,7 @@ class Tarea {
     fun getMinuto(): Int{
         return minutos
     }
+
 
 
 }
