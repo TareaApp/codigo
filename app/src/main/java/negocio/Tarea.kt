@@ -35,6 +35,10 @@ class Tarea {
         return tDB.guardar(this)
     }
 
+    fun listarTodas(): Array<Tarea>{
+        return tDB.listarTodas()
+    }
+
     fun getNombre(): String{
         return nombre
     }

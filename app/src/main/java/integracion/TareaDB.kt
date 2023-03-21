@@ -2,6 +2,7 @@ package integracion
 
 import kotlinx.coroutines.tasks.await
 import negocio.Tarea
+import java.util.*
 
 class TareaDB {
 
@@ -27,6 +28,15 @@ class TareaDB {
      suspend fun existe(t: Tarea): Boolean{
         val doc = SingletonDataBase.getInstance().getDB().collection("Tareas").document("${t.getNombre()}-${t.getAsignatura()}".uppercase()).get().await()
         return doc.exists()
+    }
+
+    fun listarTodas(): Array<Tarea>{
+        return arrayOf(
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date())
+        )
     }
 
 
