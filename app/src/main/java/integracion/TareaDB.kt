@@ -32,10 +32,10 @@ class TareaDB {
 
     fun listarTodas(): Array<Tarea>{
         return arrayOf(
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date())
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos"),
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos"),
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos"),
+            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos")
         )
     }
 

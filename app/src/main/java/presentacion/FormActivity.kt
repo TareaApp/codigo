@@ -15,9 +15,11 @@ import java.util.*
 
 class FormActivity : AppCompatActivity() {
 
+    private lateinit var t :Tarea
     val msg_exito = "Tarea creada con éxito"
     val msg_formImcompleto = "Formulario incompleto"
     val msg_duplicado = "Tarea ya existe"
+    val msg_calendarioInvalido = "La fecha planificada esta ocupada o ya ha pasado"
     private lateinit var nombreTarea: EditText
     private lateinit var categoriaTarea: EditText
     private lateinit var descripcionTarea: EditText
@@ -31,11 +33,13 @@ class FormActivity : AppCompatActivity() {
     private lateinit var myCheckBox : CheckBox
     private lateinit var calendarioPlan : CalendarView
 
-    private var fechaSeleccionada: Date? = null
+    private lateinit var fechaSeleccionada: Calendar
     //Inicializas la fecha a la actual para que el usuario pueda planificar fecha en el dia de hoy sin tocar el calendario
-    private  var dayOfMonth :Int = Date().day
-    private  var month :Int  = Date().month
-    private  var year :Int = Date().year+1900
+    private lateinit var calendar : Calendar
+    //me guardo la fecha actual del sistema para prevenir que no se hagan planificaciones en el pasado
+    private  var year :Int = Calendar.getInstance().get(Calendar.YEAR)
+    private  var month :Int  = Calendar.getInstance().get(Calendar.MONTH)
+    private  var dayOfMonth :Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +55,7 @@ class FormActivity : AppCompatActivity() {
 
         calendarioPlan = findViewById<CalendarView>(R.id.calendarView)
         myCheckBox = findViewById<CheckBox>(R.id.checkBox)
+        calendar = Calendar.getInstance()
 
         setUpNumberPickers()
         setVisibilityDate()
@@ -91,38 +96,57 @@ class FormActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
 
-            if(myCheckBox.isChecked()){
-                fechaSeleccionada = Date(year, month, dayOfMonth,numberPickerPlanHoras.value, numberPickerPlanMinutos.value)
+            if (myCheckBox.isChecked()) {
+                t = Tarea(
+                    nombreTarea.text.toString(),
+                    categoriaTarea.text.toString(),
+                    numberPickerHoras.value,
+                    numberPickerMinutos.value,
+                    descripcionTarea.text.toString(),
+                )
+
+            } else {
+                calendar.set(Calendar.MINUTE, numberPickerPlanMinutos.value)
+                calendar.set(Calendar.HOUR, numberPickerPlanHoras.value)
+                t = Tarea(
+                    nombreTarea.text.toString(),
+                    categoriaTarea.text.toString(),
+                    numberPickerHoras.value,
+                    numberPickerMinutos.value,
+                    descripcionTarea.text.toString(),
+                    calendar
+                )
             }
 
-            var t = Tarea(nombreTarea.text.toString(), categoriaTarea.text.toString(), numberPickerHoras.value, numberPickerMinutos.value, descripcionTarea.text.toString(),fechaSeleccionada)
 
-            CoroutineScope(Dispatchers.IO).launch {
-                if (!t.existe()) {
-                    t.guardar()
-                    runOnUiThread {
-                        Toast.makeText(
-                            applicationContext, msg_exito,
-                            Toast.LENGTH_LONG
-                        ).show()
+            if (myCheckBox.isChecked() && (!t.planificar() || !fechaValida()) ) {
+                Toast.makeText(applicationContext, msg_calendarioInvalido, Toast.LENGTH_LONG).show()
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (!t.existe()) {
+                        t.guardar()
+                        runOnUiThread {
+                            Toast.makeText(
+                                applicationContext, msg_exito,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                        finish()
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(
+                                applicationContext,
+                                msg_duplicado,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
 
-                    finish()
-                }
-                else{
-                    runOnUiThread {
-                        Toast.makeText(
-                            applicationContext,
-                            msg_duplicado,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
                 }
 
             }
-
         }
-
     }
 
     private fun setUpNumberPickers (){
@@ -175,14 +199,21 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
-    private fun readCalendar(){
-        calendarioPlan.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            this.year = year -1900
-            this.month=month
-            this.dayOfMonth = dayOfMonth
+    private fun readCalendar(){  //creo la fecha con la fecha indicada en el calendario
+
+
+        calendarioPlan.setOnDateChangeListener { _, yearR, monthR, dayOfMonthR ->
+
+            calendar.set(Calendar.YEAR, yearR)
+            calendar.set(Calendar.MONTH, monthR+1)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthR)
+
         }
     }
 
+    private fun fechaValida() :Boolean{
+        return calendar.get(Calendar.YEAR)>=year && calendar.get(Calendar.MONTH) >= month && calendar.get(Calendar.DAY_OF_MONTH)>=dayOfMonth
+    }
 
 }
 
