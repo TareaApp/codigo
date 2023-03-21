@@ -3,6 +3,7 @@ package integracion
 import kotlinx.coroutines.tasks.await
 import negocio.Tarea
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TareaDB {
 
@@ -31,13 +32,27 @@ class TareaDB {
     }
 
     fun listarTodas(): Array<Tarea>{
-        return arrayOf(
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date()),
-            Tarea("Jugar a los bolos", "Ocio", 3, 34, "Divertirse con los amigos", Date())
-        )
+            var lista = ArrayList<Tarea>()
+            val col = SingletonDataBase.getInstance().getDB().collection(myCol)
+        //TODO no funciona, supongo que no es la funcion que toca
+            col.get().addOnSuccessListener { documentos ->
+                for (documento in documentos) {
+                    // procesar cada documento
+                    val nombre = documento.data["Nombre"]
+                    val asignatura = documento.data["Asignatura"]
+                    val descripc = documento.data["Descripcion"]
+                    val dHoras = documento.data["Duracion Horas"]
+                    val dMinutos = documento.data["Duracion Minutos"]
+                    lista.add(Tarea(nombre as String,
+                        asignatura as String, dHoras as Int, dMinutos as Int, descripc as String,null ))
+                }
+            }.addOnFailureListener { excepcion ->
+                // manejar errores
+            }
+
+            return lista as Array<Tarea>
+        }
+
     }
 
 
-}

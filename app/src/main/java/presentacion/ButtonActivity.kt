@@ -14,7 +14,8 @@ class ButtonActivity : AppCompatActivity() {
         val buttonToForm = findViewById<Button>(R.id.buttonToForm)
 
         buttonToForm.setOnClickListener {
-            startActivity(Intent(this, FormActivity::class.java))
+            //startActivity(Intent(this, FormActivity::class.java))
+            startActivity(Intent(this, TaskListActivity::class.java))
         }
 
     }

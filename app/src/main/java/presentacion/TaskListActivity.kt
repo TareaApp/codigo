@@ -18,7 +18,7 @@ class TaskListActivity: AppCompatActivity() {
         val listView = findViewById<ListView>(R.id.listView)
 
         // Obtener array de tareas
-        var taskList = Tarea().listarTodas()
+        var taskList = Tarea.listarTodas()
 
         // Crear un ArrayAdapter para mostrar la lista de tareas
         val adapter = ArrayAdapter<Tarea>(

@@ -35,10 +35,12 @@ class Tarea {
         return tDB.guardar(this)
     }
 
-    fun listarTodas(): Array<Tarea>{
-        return tDB.listarTodas()
+    companion object{
+        private val tDBaux = TareaDB()
+        fun listarTodas(): Array<Tarea>{
+            return tDBaux.listarTodas()
+        }
     }
-
     fun getNombre(): String{
         return nombre
     }
