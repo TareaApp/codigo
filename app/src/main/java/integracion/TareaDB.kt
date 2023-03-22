@@ -18,10 +18,16 @@ class TareaDB {
     private val myPlanificacion = "Planificacion"
 
 
-    private lateinit var t: Tarea
     constructor(){
     }
 
+    /**
+     * Esta funcion solo guardará tareas que tengan una planificación
+     * @param t Tarea
+     * @author Carlos Gomes
+     * @return Delvuelve True si la tarea se ha podido en la base de datos, False en caso contrario
+     * @exception Esta funcion captura cualquier excepcion lanzada por la base de datos, en caso de que ocurra devolverá false
+     */
     fun guardar(t: Tarea): Boolean{
 
         try{
@@ -38,6 +44,9 @@ class TareaDB {
                     )
                 )
             }
+            else{
+                return false
+            }
         }
         catch (e: Exception){
             return false
@@ -45,16 +54,22 @@ class TareaDB {
         return true
     }
 
+    /**
+     * @param t Tarea
+     * @author Carlos Gomes
+     * @return Delvuelve True si la tarea existe en la base de datos, False en caso contrario
+     */
     suspend fun existe(t: Tarea): Boolean{
         val doc = SingletonDataBase.getInstance().getDB().collection(myCol).document("${t.getNombre()}-${t.getAsignatura()}".uppercase()).get().await()
-        if(doc.get(myPlanificacion) != null){
-            var cal = Calendar.getInstance()
-            cal.setTime(doc.getDate(myPlanificacion))
-            t.setPlan(cal)
-        }
         return doc.exists()
     }
-    //Para llamar a esta funcion hay que asegurarse que tiene planificacion la tarea de lo contrario no va
+    //
+    /**
+     * Para llamar a esta funcion hay que asegurarse que tiene planificacion la tarea de lo contrario no va
+     * @param t Tarea
+     * @author Carlos Gomes
+     * @return Devuelve una lista de tareas cuyas planificaciones van desde 2 dias antes de la planificicacion de la tarea pasada por parametro en adelante
+     */
     suspend fun tareasPosteriores(t: Tarea): MutableList<Tarea>{
         var tareas = mutableListOf<Tarea>()
         t.getPlan()!!.add(Calendar.DATE, -2)
@@ -65,10 +80,15 @@ class TareaDB {
             tareas.add(tarea)
         }
         t.getPlan()!!.add(Calendar.DATE, 2)
-        println(tareas)
         return tareas
     }
 
+    /**
+     * Dada una query se transforma en un objeto Tarea
+     * @param doc QueryDocumentSnapshot
+     * @author Carlos Gomes
+     * @return Delvuelve una tarea
+     */
     private fun toTarea(doc: QueryDocumentSnapshot):Tarea{
         var t = Tarea(doc.get(myNombre) as String, doc.get(myAsignatura) as String, (doc.get(myHora) as Long).toInt(),
             (doc.get(myMinuto) as Long).toInt(), doc.get(myDescripcion) as String)
