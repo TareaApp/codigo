@@ -12,7 +12,7 @@ class Tarea {
     private var hora = 0
     private var minutos: Int = 0
 
-    private lateinit var fechaPlan : Calendar
+    private var fechaPlan : Calendar? = null
 
     private val tDB = TareaDB()
 
@@ -25,7 +25,8 @@ class Tarea {
 
 
     }
-
+    //Yo quitaria este constructor y haria las planificaciones con los setters para que sea mas facil desde
+    //la vista forms
     constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = "",fechaPlan : Calendar){
         this.nombre = nombre.trim()
         this.asignatura = asignatura.trim()
@@ -45,8 +46,8 @@ class Tarea {
         return tDB.guardar(this)
     }
 
-    fun listarTodas(): Array<Tarea>{
-        return tDB.listarTodas()
+     fun listarTodas(): MutableList<Tarea>{
+        return mutableListOf()
     }
 
     fun getNombre(): String{
@@ -65,11 +66,24 @@ class Tarea {
     fun getMinuto(): Int{
         return minutos
     }
+    fun getPlan(): Calendar?{
+        return fechaPlan
+    }
+    fun setPlan(cal: Calendar){
+        fechaPlan = cal
+    }
+
+    fun setPlanNull(){
+        fechaPlan = null
+    }
 
     fun planificar() : Boolean{
 
         return true
     }
 
+    suspend fun listarTareasParaPlanificiar(): MutableList<Tarea>{
+        return tDB.tareasPosteriores(this)
+    }
 
 }

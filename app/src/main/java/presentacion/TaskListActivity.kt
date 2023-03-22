@@ -24,8 +24,7 @@ class TaskListActivity: AppCompatActivity() {
         val adapter = ArrayAdapter<Tarea>(
             this,
             android.R.layout.simple_list_item_2,
-            android.R.id.text1,
-            taskList
+            android.R.id.text1, taskList
         )
 
         // Asignar el ArrayAdapter a la ListView
