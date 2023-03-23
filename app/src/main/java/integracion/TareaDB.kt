@@ -1,5 +1,6 @@
 package integracion
 
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import negocio.Tarea
 import java.util.*
@@ -8,6 +9,13 @@ import kotlin.collections.ArrayList
 class TareaDB {
 
     private val myCol = "Tareas"
+    private val myNombre = "Nombre"
+    private val myAsignatura = "Asignatura"
+    private val myDescripcion = "Descripcion"
+    private val myHora = "Duracion Horas"
+    private val myMinuto = "Duracion Minutos"
+    private val myPlanificacion = "Planificacion"
+
     private lateinit var t: Tarea
     constructor(){
     }
@@ -31,28 +39,35 @@ class TareaDB {
         return doc.exists()
     }
 
-    fun listarTodas(): Array<Tarea>{
+    suspend fun listarTodas(): Array<Tarea?>{
             var lista = ArrayList<Tarea>()
-            val col = SingletonDataBase.getInstance().getDB().collection(myCol)
-        //TODO no funciona, supongo que no es la funcion que toca
-            col.get().addOnSuccessListener { documentos ->
-                for (documento in documentos) {
-                    // procesar cada documento
-                    val nombre = documento.data["Nombre"]
-                    val asignatura = documento.data["Asignatura"]
-                    val descripc = documento.data["Descripcion"]
-                    val dHoras = documento.data["Duracion Horas"]
-                    val dMinutos = documento.data["Duracion Minutos"]
-                    lista.add(Tarea(nombre as String,
-                        asignatura as String, dHoras as Int, dMinutos as Int, descripc as String,null ))
-                }
-            }.addOnFailureListener { excepcion ->
-                // manejar errores
-            }
+            val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).orderBy(myPlanificacion).get().await()
+            querySnapshot.forEach { doc ->
+            val tarea = toTarea(doc)
+            lista.add(tarea)
+        }
+            var array : Array<Tarea?>
 
-            return lista as Array<Tarea>
+            array = arrayOfNulls(lista.size)
+            var cont = 0
+            lista.forEach{ t ->
+                array[cont] = t
+                cont++
+            }
+            return array
         }
 
+    private fun toTarea(doc: QueryDocumentSnapshot):Tarea{
+        var t = Tarea(doc.get(myNombre) as String, doc.get(myAsignatura) as String, (doc.get(myHora) as Long).toInt(),
+            (doc.get(myMinuto) as Long).toInt(), doc.get(myDescripcion) as String, null)
+
+        /*if(doc.get(myPlanificacion) != null){
+            var cal = Calendar.getInstance()
+            cal.setTime(doc.getDate(myPlanificacion))
+            t.setPlan(cal)
+        }*/
+        return t
+    }
     }
 
 

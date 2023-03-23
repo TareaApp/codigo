@@ -1,7 +1,9 @@
 package negocio
 
+import android.annotation.SuppressLint
 import com.google.firebase.firestore.FirebaseFirestore
 import integracion.TareaDB
+import kotlinx.coroutines.*
 import java.util.Date
 import kotlinx.coroutines.tasks.await
 
@@ -37,10 +39,20 @@ class Tarea {
 
     companion object{
         private val tDBaux = TareaDB()
-        fun listarTodas(): Array<Tarea>{
-            return tDBaux.listarTodas()
+        private lateinit var aux : Array<Tarea?>
+
+       fun listarTodas(): Array<Tarea?>{
+
+           val launch = CoroutineScope(Dispatchers.IO).launch {
+               aux = tDBaux.listarTodas()
+               return@launch
+           }
+           while(!launch.isCompleted){}
+
+           return aux
         }
     }
+
     fun getNombre(): String{
         return nombre
     }
