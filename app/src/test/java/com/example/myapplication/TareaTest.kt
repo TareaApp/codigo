@@ -46,4 +46,10 @@ class TareaTest {
         coEvery { tarDB.guardar(tar) } returns false;
         assertFalse(tarDB.guardar(tar))
     }
+
+    @Test
+    fun test_No_Null_Tarea_Lista_Tareas() = runBlocking{
+        val resultList = tarDB.listarTodas()
+        assertNotNull(resultList)
+    }
 }

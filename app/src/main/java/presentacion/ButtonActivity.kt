@@ -33,24 +33,6 @@ class ButtonActivity : AppCompatActivity() {
 
         // Obtener array de tareas
         var taskList = Tarea.listarTodas()
-        /*var taskList: Array<Tarea> = arrayOf(
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-            Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-        )*/
         
 
         // Añade tus tareas al ArrayList tareas aquí
