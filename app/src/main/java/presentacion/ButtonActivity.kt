@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import negocio.Tarea
 
@@ -33,11 +34,18 @@ class ButtonActivity : AppCompatActivity() {
 
         // Obtener array de tareas
         var taskList = Tarea.listarTodas()
+
+        if(!taskList.isEmpty()){
+            val adapter = TareaArrayAdapter(this, R.layout.tarea_item, taskList)
+            listView.adapter = adapter
+        }
+        else{
+            Toast.makeText(applicationContext, "No hay tareas", Toast.LENGTH_LONG).show()
+        }
         
 
         // Añade tus tareas al ArrayList tareas aquí
 
-        val adapter = TareaArrayAdapter(this, R.layout.tarea_item, taskList)
-        listView.adapter = adapter
+
     }
     }
