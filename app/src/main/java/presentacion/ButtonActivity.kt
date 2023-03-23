@@ -59,4 +59,3 @@ class ButtonActivity : AppCompatActivity() {
         listView.adapter = adapter
     }
     }
-}

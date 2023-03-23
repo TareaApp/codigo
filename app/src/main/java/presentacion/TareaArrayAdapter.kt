@@ -10,7 +10,7 @@ import android.widget.TextView
 import negocio.Tarea
 import java.util.ArrayList
 
-class TareaArrayAdapter(context: Context, private val resource: Int, private val tareas: Array<Tarea>) :
+class TareaArrayAdapter(context: Context, private val resource: Int, private val tareas: ArrayList<Tarea>) :
     ArrayAdapter<Tarea>(context, resource, tareas) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
