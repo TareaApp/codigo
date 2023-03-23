@@ -32,8 +32,8 @@ class ButtonActivity : AppCompatActivity() {
         val listView = findViewById<ListView>(R.id.listView)
 
         // Obtener array de tareas
-        //var taskList = Tarea.listarTodas()
-        var taskList: Array<Tarea> = arrayOf(
+        var taskList = Tarea.listarTodas()
+        /*var taskList: Array<Tarea> = arrayOf(
             Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
             Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
             Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
@@ -50,13 +50,13 @@ class ButtonActivity : AppCompatActivity() {
             Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
             Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
             Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
-        )
+        )*/
+        
 
-
-
-// Añade tus tareas al ArrayList tareas aquí
+        // Añade tus tareas al ArrayList tareas aquí
 
         val adapter = TareaArrayAdapter(this, R.layout.tarea_item, taskList)
         listView.adapter = adapter
+    }
     }
 }

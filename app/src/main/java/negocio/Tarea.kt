@@ -39,14 +39,15 @@ class Tarea {
 
     companion object{
         private val tDBaux = TareaDB()
-        private lateinit var aux : Array<Tarea?>
+        private lateinit var aux : ArrayList<Tarea>
 
-       fun listarTodas(): Array<Tarea?>{
+       fun listarTodas(): ArrayList<Tarea>{
 
            val launch = CoroutineScope(Dispatchers.IO).launch {
                aux = tDBaux.listarTodas()
                return@launch
            }
+
            while(!launch.isCompleted){}
 
            return aux

@@ -39,22 +39,15 @@ class TareaDB {
         return doc.exists()
     }
 
-    suspend fun listarTodas(): Array<Tarea?>{
+    suspend fun listarTodas(): ArrayList<Tarea>{
             var lista = ArrayList<Tarea>()
             val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).orderBy(myPlanificacion).get().await()
             querySnapshot.forEach { doc ->
             val tarea = toTarea(doc)
             lista.add(tarea)
         }
-            var array : Array<Tarea?>
 
-            array = arrayOfNulls(lista.size)
-            var cont = 0
-            lista.forEach{ t ->
-                array[cont] = t
-                cont++
-            }
-            return array
+            return lista
         }
 
     private fun toTarea(doc: QueryDocumentSnapshot):Tarea{
