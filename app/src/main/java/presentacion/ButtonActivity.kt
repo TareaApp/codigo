@@ -52,23 +52,11 @@ class ButtonActivity : AppCompatActivity() {
             Tarea("Comprar pan", "Deberes", 2, 20, "Ir a comprar el pan",null),
         )
 
-        var resultArray = arrayOf<String>()
-        for (element in taskList) {
-            val joinedString = element.getNombre() + " - " + element.getAsignatura() //Concatenamos ambos strings con un espacio en blanco
-            resultArray += joinedString //Añadimos el string concatenado al array resultante
-        }
 
 
-        // Crear un ArrayAdapter para mostrar la lista de tareas
-        val adapter = ArrayAdapter<String>(
-            this,
-            android.R.layout.simple_list_item_2,
-            android.R.id.text1,
-            resultArray
-        )
+// Añade tus tareas al ArrayList tareas aquí
 
-
-        // Asignar el ArrayAdapter a la ListView
+        val adapter = TareaArrayAdapter(this, R.layout.tarea_item, taskList)
         listView.adapter = adapter
     }
 }
