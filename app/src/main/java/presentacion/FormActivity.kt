@@ -63,7 +63,7 @@ class FormActivity : AppCompatActivity() {
     }
 
 
-    fun sendFormButton (buttonToForm: View) {
+    suspend fun sendFormButton (buttonToForm: View) {
 
         var valido = true;
 

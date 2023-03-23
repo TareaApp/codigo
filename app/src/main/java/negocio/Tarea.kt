@@ -13,7 +13,7 @@ class Tarea {
     private var minutos: Int = 0
 
     private var fechaPlan : Calendar? = null
-    private val tDB = TareaDB()
+    private var tDB = TareaDB()
 
     constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = ""){
         this.nombre = nombre.trim()
@@ -38,6 +38,10 @@ class Tarea {
         return tDB.existe(this)
     }
 
+    //Necesito este setDB para las pruebas Unitarias, no borrar
+    fun setDB(db : TareaDB){
+        this.tDB = db
+    }
     fun guardar(): Boolean{
         return tDB.guardar(this)
     }
