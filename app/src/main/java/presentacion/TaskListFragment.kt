@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import negocio.Tarea
 
-class TaskListActivity: Fragment() {
+class TaskListFragment: Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
