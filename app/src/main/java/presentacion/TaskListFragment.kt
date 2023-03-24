@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import negocio.Tarea
@@ -28,21 +29,16 @@ class TaskListFragment: Fragment() {
         val listView = view.findViewById<ListView>(R.id.listView)
 
         val taskList = Tarea.listarTodas()
-        var resultArray = arrayOf<String>()
-        for (element in taskList) {
-            val joinedString = element!!.getNombre() + " - " + element.getAsignatura() //Concatenamos ambos strings con un espacio en blanco
-            resultArray += joinedString //Añadimos el string concatenado al array resultante
-        }
-        // Crear un ArrayAdapter para mostrar la lista de tareas
-        var adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_2,
-            android.R.id.text1,
-            resultArray
-        )
 
-        if (listView != null) {
+
+        // Obtener array de tareas
+
+        if(!taskList.isEmpty()){
+            val adapter = TareaArrayAdapter(view.context, R.layout.tarea_item, taskList)
             listView.adapter = adapter
+        }
+        else{
+            Toast.makeText(view.context, "No hay tareas", Toast.LENGTH_LONG).show()
         }
 
         val buttonToForm = view.findViewById<Button>(R.id.buttonToForm)
