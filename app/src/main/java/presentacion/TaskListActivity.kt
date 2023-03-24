@@ -1,24 +1,31 @@
 package presentacion
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ArrayAdapter
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import com.example.myapplication.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import negocio.Tarea
 
-class TaskListActivity: AppCompatActivity() {
+class TaskListActivity: Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tareas)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_tareas, container, false)
+    }
 
-        // Obtener una referencia a la ListView
-        val listView = findViewById<ListView>(R.id.listView)
-        // Obtener array de tareas
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val listView = view.findViewById<ListView>(R.id.listView)
 
         val taskList = Tarea.listarTodas()
         var resultArray = arrayOf<String>()
@@ -28,19 +35,22 @@ class TaskListActivity: AppCompatActivity() {
         }
         // Crear un ArrayAdapter para mostrar la lista de tareas
         var adapter = ArrayAdapter(
-            getContext(),
+            requireContext(),
             android.R.layout.simple_list_item_2,
             android.R.id.text1,
             resultArray
         )
-        // Asignar el ArrayAdapter a la ListView
-        listView.adapter = adapter
 
-    }
+        if (listView != null) {
+            listView.adapter = adapter
+        }
 
-
-    private fun getContext() : AppCompatActivity{
-        return this
+        val buttonToForm = view.findViewById<Button>(R.id.buttonToForm)
+        if (buttonToForm != null) {
+            buttonToForm.setOnClickListener {
+                startActivity(Intent(requireContext(), FormActivity::class.java))
+            }
+        }
     }
 }
 
