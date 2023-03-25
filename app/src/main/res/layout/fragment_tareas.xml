@@ -7,8 +7,6 @@
     tools:context="presentacion.TaskListFragment">
 
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ScrollView02"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -39,9 +37,9 @@
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textSize="20sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                android:layout_height="532dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
 
