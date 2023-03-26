@@ -80,68 +80,78 @@ class Tarea {
         fechaPlan = cal
     }
 
-    suspend fun setPlanNull(){ //Le da como planificación la primera disponible
+    suspend fun setPlanNull() { //Le da como planificación la primera disponible
 
-        this.setPlan(Calendar.getInstance()) // le damos una planificación
+        // cojo mi tarea, la pongo al final de la tarea que estoy mirando, miro donde acabaria y si chocaria con la siguiente
+
+        var hoy = Calendar.getInstance()
         var lista = tDB.tareasPosteriores(this)
 
-        for (i in 0 until lista.size-1) {
-            var primera = lista[i].getPlan()!!
-            var segunda = lista[i+1].getPlan()!!
+        var posible = true
+        var encontrado= false
+        for (i in 0 until lista.size - 1) {
+            if (hoy.compareTo(lista[i].getPlan()!!) == -1) { //SOLO ES VALIDA SI ES EN FECHAS SUPERARIORES A LA ACTUALIDAD
+                //el principio y final de la tarea que estoy mirando
+                var inicioPrimera = lista[i].getPlan()!!.clone() as Calendar
+                var finPrimera = lista[i].getPlan()!!.clone() as Calendar
+                finPrimera!!.add(Calendar.HOUR_OF_DAY, lista[i].getHora())
+                finPrimera!!.add(Calendar.MINUTE, lista[i].getMinuto())
 
-            if(primera.get(Calendar.HOUR)+lista[i].getHora() + (primera.get(Calendar.MINUTE)+lista[i].getMinuto())/60>24) {
-                //si la tarea abarca dos dias, movemos el dia, hora y duración
-                if(primera.get(Calendar.DAY_OF_MONTH) +1 >29 && primera.get(Calendar.MONTH) == 1 || primera.get(Calendar.DAY_OF_MONTH) +1 == 31 && (primera.get(Calendar.MONTH) == 3 || primera.get(Calendar.MONTH) == 5 ||primera.get(Calendar.MONTH) == 8 &&primera.get(Calendar.MONTH) == 10 )) { //135810
-                    if(primera.get(Calendar.MONTH)+1 ==13){
-                        primera.set(Calendar.MONTH,1)
-                        primera.set(Calendar.DAY_OF_MONTH,1)
-                        primera.set(Calendar.YEAR,primera.get(Calendar.YEAR)+1)
-                    }else{
-                        primera.set(Calendar.MONTH,primera.get(Calendar.MONTH)+1)
-                    }
-                }else{
-                    primera.set(Calendar.DAY_OF_MONTH,primera.get(Calendar.DAY_OF_MONTH)+1)
+                //le pongo a mi tarea la fecha de donde acaba la que estoy mirando  y le sumo su duracion para ver donde acaba
+                val finThis = finPrimera.clone() as Calendar
+                finThis!!.add(Calendar.HOUR_OF_DAY, this.getHora())
+                finThis!!.add(Calendar.MINUTE, this.getMinuto())
+
+                //el principio y final de la siguiente tarea
+                var inicioSegunda = lista[i + 1].getPlan()!!.clone() as Calendar
+                var finSegunda = lista[i + 1].getPlan()!!.clone() as Calendar
+                finSegunda!!.add(Calendar.HOUR_OF_DAY, lista[i + 1].getHora())
+                finSegunda!!.add(Calendar.MINUTE, lista[i + 1].getMinuto())
+
+               //si la tarea que quiero meter termina despues de que empiece la siguiente
+                 if ((finThis.compareTo(inicioSegunda) == 1)
+                    || (finThis.compareTo(inicioSegunda) == 1 && finThis.compareTo(finSegunda) == -1)) {
+                    posible = false
                 }
-                primera.set(Calendar.HOUR, (primera.get(Calendar.HOUR)+lista[i].getHora() + (primera.get(Calendar.MINUTE)+lista[i].getMinuto())/60)-24)
-                lista[i].setHora(0)
-                lista[i].setMinuto(0)
+
+                if (posible) { //si mi tarea cabe entre ambas tareas, le doy la fecha de cuando acaba la primera
+                    var fec = finPrimera.clone() as Calendar
+                    this.setPlan(fec)
+                    encontrado=true
+                    break;
+                }
             }
-               if(primera.get(Calendar.DAY_OF_MONTH)==segunda.get(Calendar.DAY_OF_MONTH) &&  primera.get(Calendar.MONTH)==segunda.get(Calendar.MONTH)){
-                   if(lista[i].getHora()*60+ lista[i].getMinuto()+ this.getHora()*60+this.getMinuto() < (segunda.get(Calendar.HOUR) -primera.get(Calendar.HOUR))*60 + segunda.get(Calendar.MINUTE) -primera.get(Calendar.MINUTE)){
-                       var fecha = primera
-                       fecha.set(primera.get(Calendar.HOUR)+lista[i].getHora(), primera.get(Calendar.MINUTE)+lista[i].getMinuto())
-                       this.setPlan(fecha)
-                       break
-                   }
-               }else{
-                   if(24 - (lista[i].getHora()+ lista[i].getMinuto()/60+ this.getHora()+this.getMinuto()/60) + segunda.get(Calendar.HOUR) + primera.get(Calendar.MINUTE)/60  < this.getHora()+this.getMinuto()){
-                       var fecha = primera
-                       fecha.set(primera.get(Calendar.HOUR)+lista[i].getHora(), primera.get(Calendar.MINUTE)+lista[i].getMinuto())
-                       this.setPlan(fecha)
-                       break
-                   }
-               }
-            }
+        }
+
+        if(!encontrado){   //si no he encontrado hueco me pongo al final del ultimo elemento
+            var fec = lista[lista.size-1].getPlan()!!.clone() as Calendar
+            this.setPlan(fec)
+
+        }
     }
 
-    suspend fun planificar() : Boolean{
+    suspend fun planificar() : Boolean {  //Funciona Limpia codigo
 
         var lista = tDB.tareasPosteriores(this)
-        for (i in 0 until lista.size-1) {
-            var primera = lista[i].getPlan()
-            var segunda = lista[i + 1].getPlan()
-            if (primera!!.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance()
-                    .get(Calendar.DAY_OF_MONTH) && primera!!.get(Calendar.MONTH) == Calendar.getInstance()
-                    .get(Calendar.MONTH)) {
-                if (lista[i].getHora() * 60 + lista[i].getMinuto() + this.getHora() * 60 + this.getMinuto() >
-                    (segunda!!.get(Calendar.HOUR) - primera!!.get(Calendar.HOUR)) * 60 + segunda!!.get(Calendar.MINUTE) - primera!!.get(Calendar.MINUTE)) {
-                    return false
-                }
+
+        val finThis = this.getPlan()!!.clone() as Calendar
+        finThis!!.add(Calendar.HOUR_OF_DAY, this.getHora())
+        finThis!!.add(Calendar.MINUTE, this.getMinuto())
+
+        for (tarea in lista) {
+
+            val finTarea = tarea.getPlan()!!.clone() as Calendar
+            finTarea!!.add(Calendar.HOUR_OF_DAY, tarea.getHora())
+            finTarea!!.add(Calendar.MINUTE, tarea.getMinuto())
+
+            if (tarea.getPlan()!!.compareTo(this.getPlan()!!) == 1 && tarea.getPlan()!!.compareTo(finThis!!) == -1) {
+                return false
+            } else if (finTarea.compareTo(this.getPlan()!!) == 1 && finTarea.compareTo(finThis!!) == -1) {
+                return false
             }
         }
         return true
     }
-
     suspend fun listarTareasParaPlanificiar(): MutableList<Tarea>{
         return tDB.tareasPosteriores(this)
     }

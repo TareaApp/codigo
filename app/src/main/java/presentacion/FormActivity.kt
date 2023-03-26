@@ -19,7 +19,8 @@ class FormActivity : AppCompatActivity() {
     val msg_exito = "Tarea creada con éxito"
     val msg_formImcompleto = "Formulario incompleto"
     val msg_duplicado = "Tarea ya existe"
-    val msg_calendarioInvalido = "La fecha planificada esta ocupada o ya ha pasado"
+    val msg_calendarioInvalido = "La fecha planificada esta ocupada"
+    val msg_FechaInvalida = "No es posible crear tareas planificadas para el pasado"
     private lateinit var nombreTarea: EditText
     private lateinit var categoriaTarea: EditText
     private lateinit var descripcionTarea: EditText
@@ -27,19 +28,19 @@ class FormActivity : AppCompatActivity() {
     private lateinit var numberPickerMinutos: NumberPicker
     val msg_duracion_minima = "La tarea debe durar mínimo un minuto"
 
-    private lateinit var numberPickerPlanHoras: NumberPicker
-    private lateinit var numberPickerPlanMinutos: NumberPicker
-
     private lateinit var myCheckBox : CheckBox
     private lateinit var calendarioPlan : CalendarView
-
-    private lateinit var fechaSeleccionada: Calendar
+    private lateinit var timePicker : TimePicker
     //Inicializas la fecha a la actual para que el usuario pueda planificar fecha en el dia de hoy sin tocar el calendario
     private lateinit var calendar : Calendar
-    //me guardo la fecha actual del sistema para prevenir que no se hagan planificaciones en el pasado
+    //me guardo la fecha y hora actual del sistema para prevenir que no se hagan planificaciones en el pasado
     private  var year :Int = Calendar.getInstance().get(Calendar.YEAR)
-    private  var month :Int  = Calendar.getInstance().get(Calendar.MONTH)
+    private  var month :Int  = Calendar.getInstance().get(Calendar.MONTH) +1
     private  var dayOfMonth :Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    private var horaActual : Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    private var minActual:Int = Calendar.getInstance().get(Calendar.MINUTE)
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +51,13 @@ class FormActivity : AppCompatActivity() {
         numberPickerHoras = findViewById<NumberPicker>(R.id.numberPickerHours)
         numberPickerMinutos = findViewById<NumberPicker>(R.id.numberPickerMinutes)
 
-        numberPickerPlanHoras =  findViewById<NumberPicker>(R.id.numberPickerHoraPlan)
-        numberPickerPlanMinutos= findViewById<NumberPicker>(R.id.numberPickerMinPlan)
+        timePicker = findViewById<TimePicker>(R.id.timePicker)
+        timePicker.setIs24HourView(true)
 
         calendarioPlan = findViewById<CalendarView>(R.id.calendarView)
         myCheckBox = findViewById<CheckBox>(R.id.checkBox)
         calendar = Calendar.getInstance()
+
 
         setUpNumberPickers()
         setVisibilityDate()
@@ -63,7 +65,7 @@ class FormActivity : AppCompatActivity() {
     }
 
 
-    suspend fun sendFormButton (buttonToForm: View) {
+    fun sendFormButton (buttonToForm: View) {
 
         var valido = true;
 
@@ -89,20 +91,34 @@ class FormActivity : AppCompatActivity() {
                 numberPickerMinutos.value,
                 descripcionTarea.text.toString(),
             )
+            CoroutineScope(Dispatchers.IO).launch {
+                if (myCheckBox.isChecked()) {
+                    //Las horas las guarda mal
+                    calendar.set(Calendar.HOUR_OF_DAY,horaActual)
+                    calendar.set(Calendar.MINUTE,minActual)
+                    t.setPlan(calendar)
+                } else {
+                    //Si entra aqui tendra que buscarle un lugar
+                    t.setPlanNull()
+                }
 
-            if (myCheckBox.isChecked()) {
-                //Las horas las guarda mal
-               t.setPlan(calendar)
-            } else {
-                //Si entra aqui tendra que buscarle un lugar
-                t.setPlanNull()
-            }
+                if (myCheckBox.isChecked() && (!t.planificar() || !fechaValida()) ) {
+                    if(!fechaValida()){
+                        runOnUiThread {
+                            Toast.makeText(applicationContext, msg_FechaInvalida, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }else{
+                        runOnUiThread {
+                            Toast.makeText(applicationContext, msg_calendarioInvalido, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
 
-            if (myCheckBox.isChecked() && (!t.planificar() || !fechaValida()) ) {
-                Toast.makeText(applicationContext, msg_calendarioInvalido, Toast.LENGTH_LONG).show()
-            } else {
-                CoroutineScope(Dispatchers.IO).launch {
+                } else {
+
                     if (!t.existe()) {
+
                         t.guardar()
                         runOnUiThread {
                             Toast.makeText(
@@ -113,6 +129,7 @@ class FormActivity : AppCompatActivity() {
 
                         finish()
                     } else {
+
                         runOnUiThread {
                             Toast.makeText(
                                 applicationContext,
@@ -140,41 +157,23 @@ class FormActivity : AppCompatActivity() {
         numberPickerMinutos.maxValue = 59
         numberPickerMinutos.wrapSelectorWheel = true
 
-
-        numberPickerPlanMinutos.minValue = 0
-        numberPickerPlanMinutos.maxValue = 59
-        numberPickerPlanMinutos.wrapSelectorWheel = true
-
-        numberPickerPlanHoras.minValue = 0
-        numberPickerPlanHoras.maxValue = 23
-        numberPickerPlanHoras.wrapSelectorWheel = true
-
     }
 
     private fun setVisibilityDate(){
         calendarioPlan.setVisibility(View.GONE)
-        numberPickerPlanHoras.setVisibility(View.GONE)
-        numberPickerPlanMinutos.setVisibility(View.GONE)
-        findViewById<TextView>(R.id.textHoraPlan).setVisibility(View.GONE)
-        findViewById<TextView>(R.id.textPuntos).setVisibility(View.GONE)
+        timePicker.setVisibility(View.GONE)
         myCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
 
             if (isChecked) {
                 calendarioPlan.setVisibility(View.VISIBLE)
-                numberPickerPlanHoras.setVisibility(View.VISIBLE)
-                numberPickerPlanMinutos.setVisibility(View.VISIBLE)
-                findViewById<TextView>(R.id.textHoraPlan).setVisibility(View.VISIBLE)
-                findViewById<TextView>(R.id.textPuntos).setVisibility(View.VISIBLE)
+                timePicker.setVisibility(View.VISIBLE)
 
+                timePicker.hour=horaActual
+                timePicker.minute=minActual
             } else {
                 calendarioPlan.setVisibility(View.GONE)
-                numberPickerPlanHoras.setVisibility(View.GONE)
-                numberPickerPlanMinutos.setVisibility(View.GONE)
-                findViewById<TextView>(R.id.textHoraPlan).setVisibility(View.GONE)
-                findViewById<TextView>(R.id.textPuntos).setVisibility(View.GONE)
+                timePicker.setVisibility(View.GONE)
             }
-
-
         }
     }
 
@@ -182,17 +181,19 @@ class FormActivity : AppCompatActivity() {
 
 
         calendarioPlan.setOnDateChangeListener { _, yearR, monthR, dayOfMonthR ->
-
             calendar.set(Calendar.YEAR, yearR)
             calendar.set(Calendar.MONTH, monthR)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthR)
-
+        }
+        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+            minActual = minute
+            horaActual=hourOfDay
         }
     }
 
     private fun fechaValida() :Boolean{
-        return calendar.get(Calendar.YEAR)>=year && calendar.get(Calendar.MONTH) >= month && calendar.get(Calendar.DAY_OF_MONTH)>=dayOfMonth
+
+        return calendar.get(Calendar.YEAR)>=year && (calendar.get(Calendar.MONTH)+1 > month || (calendar.get(Calendar.MONTH)+1== month && calendar.get(Calendar.DAY_OF_MONTH)>=dayOfMonth))
     }
 
 }
-
