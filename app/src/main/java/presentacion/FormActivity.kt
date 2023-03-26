@@ -37,8 +37,7 @@ class FormActivity : AppCompatActivity() {
     private  var year :Int = Calendar.getInstance().get(Calendar.YEAR)
     private  var month :Int  = Calendar.getInstance().get(Calendar.MONTH) +1
     private  var dayOfMonth :Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-    private var horaActual : Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-    private var minActual:Int = Calendar.getInstance().get(Calendar.MINUTE)
+
 
 
 
@@ -87,15 +86,14 @@ class FormActivity : AppCompatActivity() {
             t = Tarea(
                 nombreTarea.text.toString(),
                 categoriaTarea.text.toString(),
-                numberPickerHoras.value,
+                numberPickerHoras.value-1,
                 numberPickerMinutos.value,
                 descripcionTarea.text.toString(),
             )
             CoroutineScope(Dispatchers.IO).launch {
                 if (myCheckBox.isChecked()) {
                     //Las horas las guarda mal
-                    calendar.set(Calendar.HOUR_OF_DAY,horaActual)
-                    calendar.set(Calendar.MINUTE,minActual)
+
                     t.setPlan(calendar)
                 } else {
                     //Si entra aqui tendra que buscarle un lugar
@@ -168,8 +166,8 @@ class FormActivity : AppCompatActivity() {
                 calendarioPlan.setVisibility(View.VISIBLE)
                 timePicker.setVisibility(View.VISIBLE)
 
-                timePicker.hour=horaActual
-                timePicker.minute=minActual
+                timePicker.hour=Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                timePicker.minute=Calendar.getInstance().get(Calendar.MINUTE)
             } else {
                 calendarioPlan.setVisibility(View.GONE)
                 timePicker.setVisibility(View.GONE)
@@ -186,8 +184,8 @@ class FormActivity : AppCompatActivity() {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthR)
         }
         timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
-            minActual = minute
-            horaActual=hourOfDay
+            calendar.set(Calendar.HOUR_OF_DAY,hourOfDay)
+            calendar.set(Calendar.MINUTE,minute)
         }
     }
 

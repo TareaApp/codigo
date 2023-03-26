@@ -108,11 +108,8 @@ class Tarea {
                 finSegunda!!.add(Calendar.HOUR_OF_DAY, lista[i + 1].getHora())
                 finSegunda!!.add(Calendar.MINUTE, lista[i + 1].getMinuto())
 
-               //si la tarea que quiero meter termina despues de que empiece la siguiente
-                 if ((finThis.compareTo(inicioSegunda) == 1)
-                    || (finThis.compareTo(inicioSegunda) == 1 && finThis.compareTo(finSegunda) == -1)) {
-                    posible = false
-                }
+               //si la tarea que quiero meter termina despues de que empiece la siguiente, Sé seguro que empieza antes (Por la logica de la app)
+                posible = finThis.compareTo(inicioSegunda) == -1
 
                 if (posible) { //si mi tarea cabe entre ambas tareas, le doy la fecha de cuando acaba la primera
                     var fec = finPrimera.clone() as Calendar
@@ -144,9 +141,12 @@ class Tarea {
             finTarea!!.add(Calendar.HOUR_OF_DAY, tarea.getHora())
             finTarea!!.add(Calendar.MINUTE, tarea.getMinuto())
 
+            //Esto esta asi para que se pueda diferencias bien cada caso y sea mas legible
             if (tarea.getPlan()!!.compareTo(this.getPlan()!!) == 1 && tarea.getPlan()!!.compareTo(finThis!!) == -1) {
                 return false
             } else if (finTarea.compareTo(this.getPlan()!!) == 1 && finTarea.compareTo(finThis!!) == -1) {
+                return false
+            }else if(tarea.getPlan()!!.compareTo(this.getPlan()!!) == -1 && finTarea.compareTo(this.getPlan()!!) == 1){
                 return false
             }
         }
