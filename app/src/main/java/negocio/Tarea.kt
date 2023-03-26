@@ -90,7 +90,7 @@ class Tarea {
         var posible = true
         var encontrado= false
         for (i in 0 until lista.size - 1) {
-            if (hoy.compareTo(lista[i].getPlan()!!) == -1) { //SOLO ES VALIDA SI ES EN FECHAS SUPERARIORES A LA ACTUALIDAD
+           //SOLO ES VALIDA SI ES EN FECHAS SUPERARIORES A LA ACTUALIDAD
                 //el principio y final de la tarea que estoy mirando
                 var inicioPrimera = lista[i].getPlan()!!.clone() as Calendar
                 var finPrimera = lista[i].getPlan()!!.clone() as Calendar
@@ -111,19 +111,22 @@ class Tarea {
                //si la tarea que quiero meter termina despues de que empiece la siguiente, Sé seguro que empieza antes (Por la logica de la app)
                 posible = finThis.compareTo(inicioSegunda) == -1
 
-                if (posible) { //si mi tarea cabe entre ambas tareas, le doy la fecha de cuando acaba la primera
+                //si mi tarea cabe entre ambas tareas y no esta en dias pasados, le doy la fecha de cuando acaba la primera
+                if (posible && hoy.compareTo(finPrimera)==-1 ) {
                     var fec = finPrimera.clone() as Calendar
                     this.setPlan(fec)
                     encontrado=true
                     break;
                 }
-            }
+
         }
 
-        if(!encontrado){   //si no he encontrado hueco me pongo al final del ultimo elemento
+        if(!encontrado && lista.size !=0 ){   //si no he encontrado hueco me pongo al final del ultimo elemento
             var fec = lista[lista.size-1].getPlan()!!.clone() as Calendar
             this.setPlan(fec)
+        }else{
 
+            this.setPlan(hoy)
         }
     }
 
