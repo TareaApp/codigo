@@ -14,6 +14,11 @@ import android.view.ViewGroup
 import com.example.myapplication.R
 import negocio.Tarea
 import java.text.DateFormatSymbols
+import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import android.widget.TextView
+import android.widget.Toast
+import negocio.Tarea
 import java.util.*
 
 class TareaArrayAdapter(context: Context, private val resource: Int, private val tareas: ArrayList<Tarea>) :
@@ -40,6 +45,15 @@ class TareaArrayAdapter(context: Context, private val resource: Int, private val
 
         view.setOnClickListener {
             onItemClick(parent as AdapterView<*>, view, position, getItemId(position))
+        val asignaturaTextView = view.findViewById<TextView>(R.id.tareaAsignatura)
+        val checkBox = view.findViewById<CheckBox>(R.id.checkbox)
+
+        nombreTextView.text = tarea.getNombre()
+        asignaturaTextView.text = tarea.getAsignatura()
+        checkBox.isChecked = tarea.getCompletada()
+
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            tarea.completar(isChecked)
         }
 
         return view

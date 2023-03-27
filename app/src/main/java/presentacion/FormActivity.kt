@@ -89,6 +89,7 @@ class FormActivity : AppCompatActivity() {
                 numberPickerHoras.value,
                 numberPickerMinutos.value,
                 descripcionTarea.text.toString(),
+                false,
             )
             CoroutineScope(Dispatchers.IO).launch {
                 if (myCheckBox.isChecked()) {
