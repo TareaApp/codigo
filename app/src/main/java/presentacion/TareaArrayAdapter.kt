@@ -50,6 +50,7 @@ class TareaArrayAdapter(context: Context, private val resource: Int, private val
 
         nombreTextView.text = tarea.getNombre()
         asignaturaTextView.text = tarea.getAsignatura()
+
         checkBox.isChecked = tarea.getCompletada()
 
         checkBox.setOnCheckedChangeListener { _, isChecked ->

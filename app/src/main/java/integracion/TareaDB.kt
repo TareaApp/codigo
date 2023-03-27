@@ -96,7 +96,7 @@ class TareaDB {
 
     suspend fun agregarAtributo(){
         var lista = ArrayList<Tarea>()
-        val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).orderBy(myPlanificacion).get().await()
+        val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).get().await()
         querySnapshot.forEach { doc ->
             doc.reference.update(myCompletada, false)
         }
