@@ -18,7 +18,7 @@ import java.util.Calendar
 
 class TareaTest {
 
-    val tDB = mockk<TareaDB>()
+    var tDB = mockk<TareaDB>()
 
     lateinit var tar: Tarea
     lateinit var tar1: Tarea
@@ -53,10 +53,18 @@ class TareaTest {
     @Test
     fun setPlanNull() = runBlocking {
         tar.setDB(tDB)
-        coEvery { tDB.tareasPosteriores(any()) } returns lista
+        coEvery { tDB.tareasPosteriores(tar)} returns lista
         tar.setPlanNull()
         var fecha = tar.getPlan()?.time
-        assertEquals(fecha.toString(), "hola")
+        assertEquals(fecha.toString(), Calendar.getInstance().time.toString())
+    }
+
+    @Test
+    fun planificar() = runBlocking {
+        tar.setDB(tDB)
+        coEvery { tDB.tareasPosteriores(tar)} returns lista
+        var si = tar.planificar();
+        assertFalse(si)
     }
 
     @Test
