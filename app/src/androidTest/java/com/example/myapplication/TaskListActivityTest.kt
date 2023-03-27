@@ -21,7 +21,7 @@ class TaskListActivityTest {
     @Before
     fun setUp(){
         fecha = Date(100)
-        tarAux = Tarea("Nombre1", "Asignatura1", 11, 11, "Descripcion1", fecha)
+        tarAux = Tarea("Nombre1", "Asignatura1", 11, 11, "Descripcion1")
     }
 
     @Test

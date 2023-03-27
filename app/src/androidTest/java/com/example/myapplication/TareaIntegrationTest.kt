@@ -16,12 +16,18 @@ class TareaIntegrationTest {
 
     @Before
     fun setUp(){
-        fecha = Calendar.getInstance()
-        fecha.set(Calendar.HOUR_OF_DAY,2)
-        tarCorr = Tarea("Nombre", "Asignatura", 12, 12, "Descripcion", fecha)
-        tarNoExiste = Tarea("No existo", "nada", 12, 12, "Descripcion", fecha)
-        tarPlaniBien = Tarea("No existo", "nada", 12, 12, "Descripcion", fecha)
-
+        var c1 = Calendar.getInstance()
+        c1.set(2023,4,10,12,25)
+        var c2 = Calendar.getInstance()
+        c2.set(2023,4,10,14,0)
+        var c3 = Calendar.getInstance()
+        c3.set(2025,4,11,17,30)
+        tarCorr = Tarea("Nombre", "Asignatura", 12, 12, "Descripcion" )
+        tarNoExiste = Tarea("No existo", "nada", 12, 12, "Descripcion" )
+        tarPlaniBien = Tarea("No existo", "nada", 12, 12, "Descripcion")
+        tarCorr.setPlan(c1)
+        tarNoExiste.setPlan(c2)
+        tarPlaniBien.setPlan(c3)
     }
 
     @Test
@@ -40,6 +46,8 @@ class TareaIntegrationTest {
     @Test
     fun planificaBien() = runBlocking {
         var planificaBien = tarPlaniBien.planificar();
+        val id = "${tarPlaniBien.getNombre()}-${tarPlaniBien.getAsignatura()}".uppercase().trim()
+        SingletonDataBase.getInstance().getDB().collection("Tareas").document(id).delete()
         assertTrue(planificaBien)
     }
 
