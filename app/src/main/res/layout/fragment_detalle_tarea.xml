@@ -2,12 +2,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="presentacion.DetalleTareaFragment">
+    tools:context="presentacion.DetalleTareaFragment"
+    android:background="#e2f2f2">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp"
+            >
+
+
+
+            <TextView
+                android:id="@+id/nombreTareaDetalles"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:text="Crear Tarea"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                >
+                <TextView
+                    android:id="@+id/textview1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_border"
+                    android:padding="10dp"
+                    android:text="Categoria: \n"
+                    android:textColor="@color/black" />
+
+                <Space
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"></Space>
+
+                <TextView
+                    android:id="@+id/textview2"
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:background="@drawable/rounded_border"
+                    android:text="Dia \n Dia #\n Mes \n Hora"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:lineSpacingExtra="2dp"
+                    android:textSize="20dp"
+                    android:backgroundTint="#0c6ce1"/>
+
+
+            </LinearLayout>
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                ></Space>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descripcion de la tarea: \n "
+                android:textColor="@color/black"
+                android:background="@drawable/rounded_border"
+                android:padding="10dp"
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                ></Space>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Planificacion: \n "
+                android:textColor="@color/black"
+                android:background="@drawable/rounded_border"
+                android:padding="10dp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>
