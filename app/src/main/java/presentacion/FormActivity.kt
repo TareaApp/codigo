@@ -92,8 +92,6 @@ class FormActivity : AppCompatActivity() {
             )
             CoroutineScope(Dispatchers.IO).launch {
                 if (myCheckBox.isChecked()) {
-                    //Las horas las guarda mal
-
                     t.setPlan(calendar)
                 } else {
                     //Si entra aqui tendra que buscarle un lugar
@@ -112,11 +110,8 @@ class FormActivity : AppCompatActivity() {
                                 .show()
                         }
                     }
-
                 } else {
-
                     if (!t.existe()) {
-
                         t.guardar()
                         runOnUiThread {
                             Toast.makeText(
@@ -127,7 +122,6 @@ class FormActivity : AppCompatActivity() {
 
                         finish()
                     } else {
-
                         runOnUiThread {
                             Toast.makeText(
                                 applicationContext,

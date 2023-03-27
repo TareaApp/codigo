@@ -1,8 +1,5 @@
 package integracion
 
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import negocio.Tarea
@@ -90,12 +87,12 @@ class TareaDB {
         var lista = ArrayList<Tarea>()
         //val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).orderBy(myPlanificacion).get().await()
         val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).get().await()
-            querySnapshot.forEach { doc ->
+        querySnapshot.forEach { doc ->
             val tarea = toTarea(doc)
             lista.add(tarea)
         }
 
-            return lista
+        return lista
         }
     /**
      * Dada una query se transforma en un objeto Tarea
@@ -107,11 +104,11 @@ class TareaDB {
         var t = Tarea(doc.get(myNombre) as String, doc.get(myAsignatura) as String, (doc.get(myHora) as Long).toInt(),
             (doc.get(myMinuto) as Long).toInt(), doc.get(myDescripcion) as String)
 
-        if(doc.get(myPlanificacion) != null){
+       /* if(doc.get(myPlanificacion) != null){
             var cal = Calendar.getInstance()
             cal.setTime(doc.getDate(myPlanificacion))
             t.setPlan(cal)
-        }
+        }*/
         return t
     }
 
