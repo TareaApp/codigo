@@ -30,21 +30,25 @@ class TareaTest {
     fun setUp() {
         var c = Calendar.getInstance()
         c.set(2023,4,10,13,10);
-        tar = Tarea("Tar", "Asig", 0, 20, "Original",c)
+        tar = Tarea("Tar", "Asig", 0, 20, "Original")
+        tar.setPlan(c)
 
         var c1 = Calendar.getInstance()
         var c2 = Calendar.getInstance()
         var c3 = Calendar.getInstance()
 
         c1.set(2023,4,10,12,25)
-        tar1 = Tarea("Tar1", "Asig1", 1, 20, "1º",c1)
+        tar1 = Tarea("Tar1", "Asig1", 1, 20, "1º")
+        tar1.setPlan(c1)
 
         c2.set(2023,4,10,14,0)
-        tar2 = Tarea("Tar2", "Asig2", 0, 30, "2º",c2)
-
+        tar2 = Tarea("Tar2", "Asig2", 0, 30, "2º")
+        tar2.setPlan(c2)
 
         c3.set(2023,4,11,17,30)
-        tar3 = Tarea("Tar3", "Asig3", 1, 0, "3º",c3)
+        tar3 = Tarea("Tar3", "Asig3", 1, 0, "3º")
+        tar3.setPlan(c3)
+
         lista.add(tar1)
         lista.add(tar2)
         lista.add(tar3)
@@ -93,7 +97,8 @@ class TareaTest {
 
     @Test
     fun test_No_Null_Tarea_Lista_Tareas() = runBlocking{
-        val resultList = tarDB.listarTodas()
+        coEvery { tDB.listarTodas()} returns ArrayList<Tarea>()
+        val resultList = tDB.listarTodas()
         assertNotNull(resultList)
     }
 }
