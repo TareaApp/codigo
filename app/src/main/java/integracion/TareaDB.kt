@@ -3,9 +3,12 @@ package integracion
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import negocio.Tarea
 import java.util.Calendar
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TareaDB {
 
@@ -83,6 +86,17 @@ class TareaDB {
         return tareas
     }
 
+    suspend fun listarTodas(): ArrayList<Tarea>{
+        var lista = ArrayList<Tarea>()
+        //val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).orderBy(myPlanificacion).get().await()
+        val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).get().await()
+            querySnapshot.forEach { doc ->
+            val tarea = toTarea(doc)
+            lista.add(tarea)
+        }
+
+            return lista
+        }
     /**
      * Dada una query se transforma en un objeto Tarea
      * @param doc QueryDocumentSnapshot

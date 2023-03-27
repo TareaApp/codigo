@@ -35,8 +35,11 @@ jobs:
           FILTER_REGEX_EXCLUDE: .*res/.* # Quiero que me diga errores de código, no de los XML
           DISABLE_ERRORS: true
 
-      - name: Unit Tests # Ejecuta t0do lo que tenga @Test (creo)
+      - name: Unit Tests # Ejecuta los tests unitarios
         run: ./gradlew testDebugUnitTest
+
+      - name: Integration Tests # Ejecuta los tests de integración
+        run: ./gradlew connectedDebugAndroidTest
 
       - name: Android Test Report # Crea un reporte de los test pasados y los que no
         uses: asadmansr/android-test-report-action@v1.2.0

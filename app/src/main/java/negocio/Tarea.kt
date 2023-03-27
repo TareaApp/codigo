@@ -1,7 +1,10 @@
 package negocio
 
+import android.annotation.SuppressLint
 import com.google.firebase.firestore.FirebaseFirestore
 import integracion.TareaDB
+import kotlinx.coroutines.*
+import java.util.Date
 import kotlinx.coroutines.tasks.await
 import java.util.*
 
@@ -23,15 +26,6 @@ class Tarea {
         this.descripcion = descripcion
     }
 
-    constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = "",fechaPlan : Calendar){
-        this.nombre = nombre.trim()
-        this.asignatura = asignatura.trim()
-        this.hora = hora
-        this.minutos = minutos
-        this.descripcion = descripcion
-        this.fechaPlan = fechaPlan
-
-    }
     constructor()
 
     suspend fun existe(): Boolean{
@@ -46,8 +40,21 @@ class Tarea {
         return tDB.guardar(this)
     }
 
-     fun listarTodas(): MutableList<Tarea>{
-        return mutableListOf()
+    companion object{
+        private val tDBaux = TareaDB()
+        private lateinit var aux : ArrayList<Tarea>
+
+       fun listarTodas(): ArrayList<Tarea>{
+
+           val launch = CoroutineScope(Dispatchers.IO).launch {
+               aux = tDBaux.listarTodas()
+               return@launch
+           }
+
+           while(!launch.isCompleted){}
+
+           return aux
+        }
     }
 
     fun getNombre(): String{
