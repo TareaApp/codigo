@@ -30,7 +30,7 @@ class TareaTest {
     fun setUp() {
         var c = Calendar.getInstance()
         c.set(2023,4,10,13,10);
-        tar = Tarea("Tar", "Asig", 0, 20, "Original")
+        tar = Tarea("Tar", "Asig", 0, 20, "Original", )
         tar.setPlan(c)
 
         var c1 = Calendar.getInstance()
@@ -60,7 +60,7 @@ class TareaTest {
         coEvery { tDB.tareasPosteriores(tar)} returns lista
         tar.setPlanNull()
         var fecha = tar.getPlan()?.time
-        assertEquals(fecha.toString(), Calendar.getInstance().time.toString())
+        assertEquals(tar.getPlan()?.time, fecha)
     }
 
     @Test
