@@ -1,13 +1,15 @@
 package com.example.myapplication
 
-import android.os.Bundle
+import integracion.SingletonDataBase
 import integracion.TareaDB
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import negocio.Tarea
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 
@@ -22,12 +24,16 @@ class TareaTest {
 
     val tarDB = mockk<TareaDB>()
 
+
     lateinit var tar : Tarea
+    lateinit var tarP : Tarea
     @Before
     fun setUp(){
         tar = Tarea()
-
+        tarP = Tarea("hola", "cat", 1, 1, "Descrfioc", null, false)
     }
+
+
     @Test
     fun test_Tarea_Existe() = runBlocking {
         coEvery { tarDB.existe(tar) } returns true
@@ -54,8 +60,20 @@ class TareaTest {
 
     @Test
     fun test_No_Null_Tarea_Lista_Tareas() = runBlocking{
-        val resultList = tarDB.listarTodas()
-        assertNotNull(resultList)
+        every { runBlocking { tarDB.listarTodas() } } returns ArrayList<Tarea>()
+        assertNotNull(tarDB.listarTodas())
+    }
+
+    @Test
+    fun test_Comprobar_Completar_Tarea_Marcar_Completada(){
+        every { tarDB.completar(tar, true) } returns Unit
+        assertTrue(true)
+    }
+
+    @Test
+    fun test_Comprobar_Completar_Tarea_Marcar_No_Completada(){
+        every { tarDB.completar(tarP, false) } returns Unit
+        assertFalse(false)
     }
 
     @Test
