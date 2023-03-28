@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import negocio.Tarea
-import java.util.ArrayList
+import java.text.DateFormatSymbols
+import java.util.*
 
 class TareaArrayAdapter(context: Context, private val resource: Int, private val tareas: ArrayList<Tarea>) :
     ArrayAdapter<Tarea>(context, resource, tareas) {
@@ -19,10 +20,14 @@ class TareaArrayAdapter(context: Context, private val resource: Int, private val
         val tarea = tareas[position]
 
         val nombreTextView = view.findViewById<TextView>(R.id.tareaNombre)
-        val asignaturaTextView = view.findViewById<TextView>(R.id.tareaAsignatura)
-
+        val planificacionTextView = view.findViewById<TextView>(R.id.tareaPlanificacion)
+        val dia = tarea.getPlan()!!.get(Calendar.DAY_OF_MONTH).toString()
+        val mes = tarea.getPlan()!!.get(Calendar.MONTH)
+        val year = tarea.getPlan()!!.get(Calendar.YEAR).toString()
+        val symbols = DateFormatSymbols(Locale("es", "ES"))
+        val nombreMes = symbols.months[mes]
         nombreTextView.text = tarea.getNombre()
-        asignaturaTextView.text = tarea.getAsignatura()
+        planificacionTextView.text = dia + " de " + nombreMes + " de " + year
 
         return view
     }
