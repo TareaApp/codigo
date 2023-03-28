@@ -85,14 +85,14 @@ class Tarea {
         // cojo mi tarea, la pongo al final de la tarea que estoy mirando, miro donde acabaria y si chocaria con la siguiente
 
         var hoy = Calendar.getInstance()
+        this.setPlan(hoy)
         var lista = tDB.tareasPosteriores(this)
 
-        var posible = true
+        var posible = false
         var encontrado= false
         for (i in 0 until lista.size - 1) {
            //SOLO ES VALIDA SI ES EN FECHAS SUPERARIORES A LA ACTUALIDAD
                 //el principio y final de la tarea que estoy mirando
-                var inicioPrimera = lista[i].getPlan()!!.clone() as Calendar
                 var finPrimera = lista[i].getPlan()!!.clone() as Calendar
                 finPrimera!!.add(Calendar.HOUR_OF_DAY, lista[i].getHora())
                 finPrimera!!.add(Calendar.MINUTE, lista[i].getMinuto())
@@ -117,16 +117,16 @@ class Tarea {
                     this.setPlan(fec)
                     encontrado=true
                     break;
-                }
-
+                }else{posible=false}
         }
 
         if(!encontrado && lista.size !=0 ){   //si no he encontrado hueco me pongo al final del ultimo elemento
-            var fec = lista[lista.size-1].getPlan()!!.clone() as Calendar
-            this.setPlan(fec)
-        }else{
-
-            this.setPlan(hoy)
+            if(lista.size!=0){
+                var fec = lista[lista.size-1].getPlan()!!.clone() as Calendar
+                this.setPlan(fec)
+            }else{
+                this.setPlan(hoy)
+            }
         }
     }
 
