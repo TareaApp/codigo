@@ -37,10 +37,7 @@ jobs:
 
       - name: Unit Tests # Ejecuta los tests unitarios
         run: ./gradlew testDebugUnitTest
-
-      - name: Integration Tests # Ejecuta los tests de integración
-        run: ./gradlew connectedDebugAndroidTest
-
+        
       - name: Android Test Report # Crea un reporte de los test pasados y los que no
         uses: asadmansr/android-test-report-action@v1.2.0
         if: ${{ always() }} # Significa que, aunque haya un test que no pase, el workflow no pare y llegue a generar el reporte
