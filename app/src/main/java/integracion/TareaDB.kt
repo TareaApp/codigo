@@ -104,11 +104,11 @@ class TareaDB {
         var t = Tarea(doc.get(myNombre) as String, doc.get(myAsignatura) as String, (doc.get(myHora) as Long).toInt(),
             (doc.get(myMinuto) as Long).toInt(), doc.get(myDescripcion) as String)
 
-       /* if(doc.get(myPlanificacion) != null){
+        if(doc.get(myPlanificacion) != null){
             var cal = Calendar.getInstance()
             cal.setTime(doc.getDate(myPlanificacion))
             t.setPlan(cal)
-        }*/
+        }
         return t
     }
 

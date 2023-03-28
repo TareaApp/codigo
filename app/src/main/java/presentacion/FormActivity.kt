@@ -83,6 +83,14 @@ class FormActivity : AppCompatActivity() {
         if (!valido)
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
+
+            if(numberPickerHoras.value != 0){
+                numberPickerHoras.value--;
+            }
+            if(numberPickerMinutos.value != 0){
+                numberPickerMinutos.value--;
+            }
+
             t = Tarea(
                 nombreTarea.text.toString(),
                 categoriaTarea.text.toString(),
