@@ -42,7 +42,8 @@ class TareaDB {
                         myDescripcion to t.getDescription(),
                         myHora to t.getHora(),
                         myMinuto to t.getMinuto(),
-                        myPlanificacion to t.getPlan()!!.time
+                        myPlanificacion to t.getPlan()!!.time,
+                        myCompletada to t.getCompletada()
                     )
                 )
             }

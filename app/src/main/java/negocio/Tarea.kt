@@ -43,6 +43,7 @@ class Tarea {
     }
 
     fun completar(completado: Boolean){
+        this.completada = completado //Para test de integracion
         return tDB.completar(this, completado)
     }
 
