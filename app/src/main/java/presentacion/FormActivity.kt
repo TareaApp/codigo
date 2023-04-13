@@ -40,7 +40,6 @@ class FormActivity : AppCompatActivity() {
 
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
@@ -84,17 +83,10 @@ class FormActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
 
-            if(numberPickerHoras.value != 0){
-                numberPickerHoras.value--;
-            }
-            if(numberPickerMinutos.value != 0){
-                numberPickerMinutos.value--;
-            }
-
             t = Tarea(
                 nombreTarea.text.toString(),
                 categoriaTarea.text.toString(),
-                numberPickerHoras.value-1,
+                numberPickerHoras.value,
                 numberPickerMinutos.value,
                 descripcionTarea.text.toString(),
             )
@@ -151,8 +143,6 @@ class FormActivity : AppCompatActivity() {
         numberPickerHoras.maxValue = 10
         numberPickerHoras.wrapSelectorWheel = true
 
-
-        /* Me invento que como mínimo la tarea tiene que durar un minuto porque si no habría tareas con 0 minutos y 0 horas*/
         numberPickerMinutos.minValue = 0
         numberPickerMinutos.maxValue = 59
         numberPickerMinutos.wrapSelectorWheel = true
