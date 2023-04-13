@@ -1,17 +1,24 @@
 package presentacion
 
-import com.example.myapplication.R
+
 import android.content.Context
+
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+
+import java.util.ArrayList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
+import com.example.myapplication.R
 import negocio.Tarea
-import java.util.ArrayList
 
 class TareaArrayAdapter(context: Context, private val resource: Int, private val tareas: ArrayList<Tarea>) :
-    ArrayAdapter<Tarea>(context, resource, tareas) {
+    ArrayAdapter<Tarea>(context, resource, tareas), AdapterView.OnItemClickListener {
+
+    private val fragmentManager = (context as FragmentActivity).supportFragmentManager
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(resource, parent, false)
@@ -24,6 +31,20 @@ class TareaArrayAdapter(context: Context, private val resource: Int, private val
         nombreTextView.text = tarea.getNombre()
         asignaturaTextView.text = tarea.getAsignatura()
 
+        view.setOnClickListener {
+            onItemClick(parent as AdapterView<*>, view, position, getItemId(position))
+        }
+
         return view
     }
+
+    override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        val tarea = getItem(position)
+        val fragment = DetalleTareaFragment.newInstance(tarea, "hola")
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragmentTareas, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 }
+

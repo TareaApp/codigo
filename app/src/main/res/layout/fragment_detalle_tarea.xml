@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="presentacion.DetalleTareaFragment"
+    android:id="@+id/detalleTareaFragment"
     android:background="#e2f2f2">
 
     <ScrollView
