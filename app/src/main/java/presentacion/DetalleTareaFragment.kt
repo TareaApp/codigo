@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.example.myapplication.R
 import negocio.Tarea
 
@@ -20,23 +21,28 @@ private const val ARG_PARAM2 = "param2"
  */
 class DetalleTareaFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var tarea: Tarea? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
+        // Inflate the layout for this fragmen
+
+
         return inflater.inflate(R.layout.fragment_detalle_tarea, container, false)
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        view.findViewById<TextView>(R.id.nombreTareaDetalles).text = tarea?.getNombre() ?: "Nombre Tarea"
+        view.findViewById<TextView>(R.id.categoriaDetalles).text = tarea?.getAsignatura() ?: "Nombre Asignatura"
+        view.findViewById<TextView>(R.id.descripcionDetalles).text = "Descripcion de la tarea: \n" + tarea?.getDescription() ?: "Descripcion"
     }
 
     companion object {
@@ -50,11 +56,15 @@ class DetalleTareaFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: Tarea?, param2: String) =
+        fun newInstance(param1: Tarea?) =
             DetalleTareaFragment().apply {
                 arguments = Bundle().apply {
 
                 }
             }
+    }
+
+    fun setTarea(tarea: Tarea?) {
+        this.tarea = tarea
     }
 }

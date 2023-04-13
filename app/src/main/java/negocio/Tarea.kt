@@ -54,7 +54,7 @@ class Tarea {
         }
     }
 
-    fun getNombre(): String{
+    fun getNombre(): String {
         return nombre
     }
     fun getDescription(): String{

@@ -40,7 +40,8 @@ class TareaArrayAdapter(context: Context, private val resource: Int, private val
 
     override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         val tarea = getItem(position)
-        val fragment = DetalleTareaFragment.newInstance(tarea, "hola")
+        val fragment = DetalleTareaFragment.newInstance(tarea)
+        fragment.setTarea(tarea)
         fragmentManager.beginTransaction()
             .replace(R.id.fragmentTareas, fragment)
             .addToBackStack(null)

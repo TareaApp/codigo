@@ -23,7 +23,6 @@
                 android:id="@+id/nombreTareaDetalles"
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:text="Crear Tarea"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textColor="@color/black"
@@ -37,7 +36,7 @@
                 android:padding="20dp"
                 >
                 <TextView
-                    android:id="@+id/textview1"
+                    android:id="@+id/categoriaDetalles"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -74,6 +73,7 @@
                 ></Space>
 
             <TextView
+                android:id="@+id/descripcionDetalles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Descripcion de la tarea: \n "
