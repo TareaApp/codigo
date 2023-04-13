@@ -13,6 +13,7 @@ class FormActivityRecordatorio : AppCompatActivity(){
         setContentView(R.layout.activity_formrecordatorio)
     }
 
+
     fun sendFormButtonRec (buttonToForm: View){
 
     }

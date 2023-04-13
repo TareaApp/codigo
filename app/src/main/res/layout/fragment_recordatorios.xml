@@ -12,6 +12,7 @@
         android:gravity="bottom|end"
         android:orientation="vertical">
 
+
         <Button
             android:id="@+id/buttonToFormRecordatorio"
             android:layout_width="66dp"
