@@ -5,7 +5,7 @@ import java.util.*
 
 class Recordatorio {
     private lateinit var nombre: String
-    private lateinit var asignatura: String
+    private lateinit var categoria: String
     private lateinit var descripcion: String
     private lateinit var fecha: Calendar
 
@@ -19,11 +19,11 @@ class Recordatorio {
     private var recordDB = RecordatorioDB()
 
     private var fechaRecordatorio = Calendar.getInstance()
-    constructor(nombre: String, asignatura: String, descripcion: String = "", anyo: Integer, mes: Integer,
+    constructor(nombre: String, categoria: String, descripcion: String = "", anyo: Integer, mes: Integer,
                 dia: Integer, hora: Integer, minutos: Integer){ //Por completar
 
         this.nombre = nombre.trim()
-        this.asignatura = asignatura.trim()
+        this.categoria = categoria.trim()
         this.descripcion = descripcion
 
         this.anyo = anyo
@@ -38,5 +38,17 @@ class Recordatorio {
 
     suspend fun existe(): Boolean{
         return recordDB.existe(this);
+    }
+
+    fun getNombre(): String{
+        return nombre
+    }
+
+    fun getCategoria() : String{
+        return categoria
+    }
+
+    fun getFecha(): Calendar{
+        return fecha
     }
 }
