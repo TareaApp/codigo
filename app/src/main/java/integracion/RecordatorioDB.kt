@@ -18,7 +18,7 @@ class RecordatorioDB {
         //val id = "${r.getNombre()}-${r.getAsignatura()}".uppercase().trim()
         return true
     }
-    suspend fun existe(t: Tarea): Boolean {
+    suspend fun existe(r: Recordatorio): Boolean {
         return true
     }
 }
