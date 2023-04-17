@@ -47,6 +47,7 @@ class DetalleTareaFragment : Fragment() {
         val mes = tarea?.getPlan()!!.get(Calendar.MONTH)
         val hora = tarea?.getPlan()!!.get(Calendar.HOUR_OF_DAY).toString()
         val minutos = tarea?.getPlan()!!.get(Calendar.MINUTE).toString()
+        val duracionTarea = tarea?.getHora().toString() + " horas y " + tarea?.getMinuto().toString() + " minutos"
         val dayName = when (diaSemana) {
             Calendar.MONDAY -> "Lunes"
             Calendar.TUESDAY -> "Martes"
@@ -64,8 +65,8 @@ class DetalleTareaFragment : Fragment() {
         view.findViewById<TextView>(R.id.categoriaDetalles).text = tarea?.getAsignatura() ?: "Nombre Asignatura"
         view.findViewById<TextView>(R.id.descripcionDetalles).text = "Descripcion de la tarea: \n" + tarea?.getDescription() ?: "Descripcion"
         view.findViewById<TextView>(R.id.fechaTareaDetalles).text = dayName + "\n" + dia + "\n" + nombreMes + "\n" + hora + ":" + minutos ?: "Fecha Tarea"
-        view.findViewById<TextView>(R.id.planificacionDetalles).text = "Planificación: \n" + dayName + "          " + dia + nombreMes + ",        " + hora + ":" + minutos ?: "Fecha Tarea"
-
+        view.findViewById<TextView>(R.id.planificacionDetalles).text = "Planificación: \n" + dayName + "          " + dia + nombreMes + ",        " + hora + ":" + minutos ?: "Planificacion Tarea"
+        view.findViewById<TextView>(R.id.duracionDetalles).text = "Duración: \n" + duracionTarea ?: "Duración Tarea"
     }
 
     companion object {

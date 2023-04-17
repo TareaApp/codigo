@@ -89,14 +89,31 @@
 
 
             <TextView
-                android:id="@+id/planificacionDetalles"
+                android:id="@+id/duracionDetalles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Planificacion: \n "
+                android:text="Duración: \n "
                 android:textColor="@color/black"
                 android:background="@drawable/rounded_border"
                 android:padding="10dp"
                 />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"></Space>
+
+            <TextView
+                android:id="@+id/planificacionDetalles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_border"
+                android:padding="10dp"
+                android:text="Planificacion: \n "
+                android:textColor="@color/black" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"></Space>
 
         </LinearLayout>
     </ScrollView>
