@@ -41,6 +41,7 @@ class TaskListFragment: Fragment() {
             Toast.makeText(view.context, "No hay tareas", Toast.LENGTH_LONG).show()
         }
 
+
         val buttonToForm = view.findViewById<Button>(R.id.buttonToForm)
         if (buttonToForm != null) {
             buttonToForm.setOnClickListener {
