@@ -8,12 +8,13 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 
-import java.util.ArrayList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.R
 import negocio.Tarea
+import java.text.DateFormatSymbols
+import java.util.*
 
 class TareaArrayAdapter(context: Context, private val resource: Int, private val tareas: ArrayList<Tarea>) :
     ArrayAdapter<Tarea>(context, resource, tareas), AdapterView.OnItemClickListener {
@@ -26,10 +27,16 @@ class TareaArrayAdapter(context: Context, private val resource: Int, private val
         val tarea = tareas[position]
 
         val nombreTextView = view.findViewById<TextView>(R.id.tareaNombre)
-        val asignaturaTextView = view.findViewById<TextView>(R.id.tareaAsignatura)
+        val planificacionTextView = view.findViewById<TextView>(R.id.tareaPlanificacion)
+        val diaSemana = tarea.getPlan()!!.get(Calendar.DAY_OF_WEEK).toString()
+        val dia = tarea.getPlan()!!.get(Calendar.DAY_OF_MONTH).toString()
+        val mes = tarea.getPlan()!!.get(Calendar.MONTH)
+        val year = tarea.getPlan()!!.get(Calendar.YEAR).toString()
+        val symbols = DateFormatSymbols(Locale("es", "ES"))
+        val nombreMes = symbols.months[mes]
 
         nombreTextView.text = tarea.getNombre()
-        asignaturaTextView.text = tarea.getAsignatura()
+        planificacionTextView.text = dia + " de " + nombreMes + " de " + year
 
         view.setOnClickListener {
             onItemClick(parent as AdapterView<*>, view, position, getItemId(position))

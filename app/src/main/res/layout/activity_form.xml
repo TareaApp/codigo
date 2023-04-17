@@ -96,7 +96,7 @@
 
         <LinearLayout
             android:layout_width="324dp"
-            android:layout_height="40dp"
+            android:layout_height="117dp"
             android:layout_margin="12pt"
             android:orientation="horizontal">
 
@@ -164,46 +164,16 @@
             android:layout_weight="1" />
 
         <LinearLayout
-            android:layout_width="324dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="12pt"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textHoraPlan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="Hora:"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="20sp" />
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-            <NumberPicker
-                android:id="@+id/numberPickerHoraPlan"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:id="@+id/textPuntos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text=":"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="20sp" />
-
-            <NumberPicker
-                android:id="@+id/numberPickerMinPlan"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
         </LinearLayout>
 
         <LinearLayout

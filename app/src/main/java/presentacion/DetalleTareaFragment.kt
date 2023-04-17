@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.myapplication.R
 import negocio.Tarea
+import java.text.DateFormatSymbols
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,9 +42,30 @@ class DetalleTareaFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_detalle_tarea, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        val diaSemana = tarea?.getPlan()!!.get(Calendar.DAY_OF_WEEK)
+        val dia = tarea?.getPlan()!!.get(Calendar.DAY_OF_MONTH).toString()
+        val mes = tarea?.getPlan()!!.get(Calendar.MONTH)
+        val hora = tarea?.getPlan()!!.get(Calendar.HOUR_OF_DAY).toString()
+        val minutos = tarea?.getPlan()!!.get(Calendar.MINUTE).toString()
+        val dayName = when (diaSemana) {
+            Calendar.MONDAY -> "Lunes"
+            Calendar.TUESDAY -> "Martes"
+            Calendar.WEDNESDAY -> "Miércoles"
+            Calendar.THURSDAY -> "Jueves"
+            Calendar.FRIDAY -> "Viernes"
+            Calendar.SATURDAY -> "Sábado"
+            Calendar.SUNDAY -> "Domingo"
+            else -> throw IllegalArgumentException("Valor de día de la semana inválido: $diaSemana")
+        }
+        val symbols = DateFormatSymbols(Locale("es", "ES"))
+        val nombreMes = symbols.months[mes]
+
         view.findViewById<TextView>(R.id.nombreTareaDetalles).text = tarea?.getNombre() ?: "Nombre Tarea"
         view.findViewById<TextView>(R.id.categoriaDetalles).text = tarea?.getAsignatura() ?: "Nombre Asignatura"
         view.findViewById<TextView>(R.id.descripcionDetalles).text = "Descripcion de la tarea: \n" + tarea?.getDescription() ?: "Descripcion"
+        view.findViewById<TextView>(R.id.fechaTareaDetalles).text = dayName + "\n" + dia + "\n" + nombreMes + "\n" + hora + ":" + minutos ?: "Fecha Tarea"
+        view.findViewById<TextView>(R.id.planificacionDetalles).text = "Planificación: \n" + dayName + "          " + dia + nombreMes + ",        " + hora + ":" + minutos ?: "Fecha Tarea"
+
     }
 
     companion object {

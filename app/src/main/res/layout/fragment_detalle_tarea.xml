@@ -50,7 +50,7 @@
                     android:layout_height="20dp"></Space>
 
                 <TextView
-                    android:id="@+id/textview2"
+                    android:id="@+id/fechaTareaDetalles"
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -89,6 +89,7 @@
 
 
             <TextView
+                android:id="@+id/planificacionDetalles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Planificacion: \n "
