@@ -19,18 +19,12 @@ class Recordatorio {
     private var recordDB = RecordatorioDB()
 
     private var fechaRecordatorio = Calendar.getInstance()
-    constructor(nombre: String, categoria: String, descripcion: String = "", anyo: Integer, mes: Integer,
-                dia: Integer, hora: Integer, minutos: Integer){ //Por completar
+    constructor(nombre: String, categoria: String, descripcion: String = "", fecha: Calendar){ //Por completar
 
         this.nombre = nombre.trim()
         this.categoria = categoria.trim()
         this.descripcion = descripcion
-
-        this.anyo = anyo
-        this.mes = mes
-        this.dia = dia
-        this.hora = hora
-        this.minutos = minutos
+        this.fecha = fecha
     }
     fun guardar(): Boolean {
         return recordDB.guardar(this);

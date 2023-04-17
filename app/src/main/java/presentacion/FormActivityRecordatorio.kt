@@ -1,8 +1,6 @@
 package presentacion
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
 import android.widget.CalendarView
 import android.widget.EditText
@@ -10,11 +8,15 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import negocio.Recordatorio
 import java.util.*
 
 class FormActivityRecordatorio : AppCompatActivity(){
 
+    private lateinit var r :Recordatorio;
     private lateinit var nombreRec: EditText
     private lateinit var categoriaRec: EditText
     private lateinit var descripcionRec: EditText
@@ -57,6 +59,7 @@ class FormActivityRecordatorio : AppCompatActivity(){
         timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
             calendar.set(Calendar.HOUR_OF_DAY,hourOfDay)
             calendar.set(Calendar.MINUTE,minute)
+            calendar.set(Calendar.SECOND, 0)
         }
     }
 
@@ -79,7 +82,38 @@ class FormActivityRecordatorio : AppCompatActivity(){
         if (!valido)
             Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
+            r = Recordatorio (
+                nombreRec.text.toString(),
+                categoriaRec.text.toString(),
+                descripcionRec.toString(),
+                calendar
+            )
 
+            CoroutineScope(Dispatchers.IO).launch {
+
+                if (!fechaValida()){
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, msg_FechaInvalida, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                } else {
+
+                    if (r.existe()) {
+                        runOnUiThread {
+                            Toast.makeText(applicationContext, msg_duplicado, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    } else {
+                        r.guardar()
+
+                        runOnUiThread {
+                            Toast.makeText(applicationContext, msg_exito, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                        finish()
+                    }
+                }
+            }
         }
     }
 }
