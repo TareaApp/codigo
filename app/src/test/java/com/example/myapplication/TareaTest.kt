@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.os.Bundle
 import integracion.TareaDB
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -13,6 +14,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import presentacion.DetalleTareaFragment
+import java.util.*
+import java.util.regex.Pattern.matches
 
 class TareaTest {
 
@@ -22,6 +26,7 @@ class TareaTest {
     @Before
     fun setUp(){
         tar = Tarea()
+
     }
     @Test
     fun test_Tarea_Existe() = runBlocking {
@@ -52,4 +57,15 @@ class TareaTest {
         val resultList = tarDB.listarTodas()
         assertNotNull(resultList)
     }
+
+    @Test
+    fun test_Getters_Ver_Detalles_Tarea() {
+        val tarea = Tarea("Tarea 1", "Asignatura 1", 2, 30, "Descripción de la tarea 1")
+        assertEquals("Tarea 1", tarea.getNombre())
+        assertEquals("Asignatura 1", tarea.getAsignatura())
+        assertEquals("Descripción de la tarea 1", tarea.getDescription())
+        assertEquals(2, tarea.getHora())
+        assertEquals(30, tarea.getMinuto())
+    }
+
 }
