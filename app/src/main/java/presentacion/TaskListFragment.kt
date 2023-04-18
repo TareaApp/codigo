@@ -10,11 +10,13 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.myapplication.R
 import negocio.Tarea
 
 class TaskListFragment: Fragment() {
 
+    lateinit var vista: View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +31,7 @@ class TaskListFragment: Fragment() {
         val listView = view.findViewById<ListView>(R.id.listView)
 
         val taskList = Tarea.listarTodas()
-
+        this.vista = view
 
         // Obtener array de tareas
 
@@ -42,6 +44,31 @@ class TaskListFragment: Fragment() {
         }
 
         val buttonToForm = view.findViewById<Button>(R.id.buttonToForm)
+        if (buttonToForm != null) {
+            buttonToForm.setOnClickListener {
+                startActivity(Intent(requireContext(), FormActivity::class.java))
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+
+        val listView = vista.findViewById<ListView>(R.id.listView)
+
+        val taskList = Tarea.listarTodas()
+
+
+        // Obtener array de tareas
+
+        if(!taskList.isEmpty()){
+            val adapter = TareaArrayAdapter(vista.context, R.layout.tarea_item, taskList)
+            listView.adapter = adapter
+        }
+        else{
+            Toast.makeText(vista.context, "No hay tareas", Toast.LENGTH_LONG).show()
+        }
+
+        val buttonToForm = vista.findViewById<Button>(R.id.buttonToForm)
         if (buttonToForm != null) {
             buttonToForm.setOnClickListener {
                 startActivity(Intent(requireContext(), FormActivity::class.java))

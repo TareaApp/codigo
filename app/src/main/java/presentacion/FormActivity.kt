@@ -119,6 +119,13 @@ class FormActivity : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                         }
+                        val fragment = supportFragmentManager.findFragmentById(R.id.fragmentListar)
+                        if(fragment != null && fragment.isAdded){
+                            val fragmentTransaction = supportFragmentManager.beginTransaction()
+                            fragmentTransaction.detach(fragment)
+                            fragmentTransaction.attach(fragment)
+                            fragmentTransaction.commit()
+                        }
 
                         finish()
                     } else {
