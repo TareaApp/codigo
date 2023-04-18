@@ -34,6 +34,10 @@ class Recordatorio {
         return recordDB.existe(this);
     }
 
+    fun getDescripcion(): String{
+        return descripcion
+    }
+
     fun getNombre(): String{
         return nombre
     }
