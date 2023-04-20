@@ -29,7 +29,7 @@ class RecordatoriosFragment : Fragment() {
         val listView = view.findViewById<ListView>(R.id.listView)
         val taskList = Recordatorio.listarTodas()
 
-        if(!taskList.isEmpty()){
+        if(taskList.isNotEmpty()){
             val adapter = RecordArrayAdapter(view.context, R.layout.rec_item, taskList)
             listView.adapter = adapter
         }
