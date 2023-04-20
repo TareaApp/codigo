@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import com.example.myapplication.R
 import negocio.Tarea
@@ -60,13 +61,20 @@ class DetalleTareaFragment : Fragment() {
         }
         val symbols = DateFormatSymbols(Locale("es", "ES"))
         val nombreMes = symbols.months[mes]
+        val checkBox = view.findViewById<CheckBox>(R.id.checkboxCompletada)
+        var estaMarcado = tarea!!.getCompletada()
 
+        checkBox.isChecked = estaMarcado
         view.findViewById<TextView>(R.id.nombreTareaDetalles).text = tarea?.getNombre() ?: "Nombre Tarea"
         view.findViewById<TextView>(R.id.categoriaDetalles).text = tarea?.getAsignatura() ?: "Nombre Asignatura"
         view.findViewById<TextView>(R.id.descripcionDetalles).text = "Descripcion de la tarea: \n" + tarea?.getDescription() ?: "Descripcion"
         view.findViewById<TextView>(R.id.fechaTareaDetalles).text = dayName + "\n" + dia + "\n" + nombreMes + "\n" + hora + ":" + minutos ?: "Fecha Tarea"
         view.findViewById<TextView>(R.id.planificacionDetalles).text = "Planificación: \n" + dayName + "          " + dia + nombreMes + ",        " + hora + ":" + minutos ?: "Planificacion Tarea"
         view.findViewById<TextView>(R.id.duracionDetalles).text = "Duración: \n" + duracionTarea ?: "Duración Tarea"
+
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            tarea!!.completar(isChecked)
+        }
     }
 
     companion object {

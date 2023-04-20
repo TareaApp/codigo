@@ -28,6 +28,7 @@ class TaskListFragment: Fragment()  {
         val listView = view.findViewById<ListView>(R.id.listView)
         val taskList = Tarea.listarTodas()
 
+
         // Obtener array de tareas
 
         if(!taskList.isEmpty()){

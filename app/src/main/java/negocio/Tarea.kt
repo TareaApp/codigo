@@ -14,8 +14,6 @@ class Tarea {
     private lateinit var descripcion: String
     private var hora = 0
     private var minutos: Int = 0
-    private var completada: Boolean = false
-
     private var fechaPlan : Calendar? = null
     private var tDB = TareaDB()
     private var completada: Boolean = false

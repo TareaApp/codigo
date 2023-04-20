@@ -104,6 +104,7 @@ class TareaDB {
     }
 
     suspend fun listarTodas(): ArrayList<Tarea>{
+
         var lista = ArrayList<Tarea>()
         val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).orderBy(myPlanificacion).get().await()
         //val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).get().await()
