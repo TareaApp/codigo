@@ -3,6 +3,8 @@ package integracion
 import kotlinx.coroutines.tasks.await
 import negocio.Recordatorio
 import negocio.Tarea
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 class RecordatorioDB {
 
@@ -16,13 +18,15 @@ class RecordatorioDB {
     }
 
     fun guardar(r: Recordatorio): Boolean {
-        val id = "${r.getNombre()}-${r.getCategoria()}-${r.getFecha().time}".uppercase().trim()
+
+        val timestamp = r.getFecha().time.time
+        val id = "${r.getNombre()}-${r.getCategoria()}-${timestamp}".uppercase().trim()
         try {
             SingletonDataBase.getInstance().getDB().collection(myCol).document(id).set(
                 hashMapOf(
                     myNombre to r.getNombre(),
                     myCategoria to r.getCategoria(),
-                    myFecha to r.getFecha().time,
+                    myFecha to timestamp,
                     myDescripcion to r.getDescripcion()
                 )
             )
