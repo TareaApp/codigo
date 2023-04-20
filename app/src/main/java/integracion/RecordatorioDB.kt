@@ -26,7 +26,7 @@ class RecordatorioDB {
                 hashMapOf(
                     myNombre to r.getNombre(),
                     myCategoria to r.getCategoria(),
-                    myFecha to timestamp,
+                    myFecha to r.getFecha().time,
                     myDescripcion to r.getDescripcion()
                 )
             )
