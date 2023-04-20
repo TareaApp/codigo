@@ -24,16 +24,17 @@ class RecordArrayAdapter(context: Context, private val resource: Int, private va
         val asignaturaTextView = view.findViewById<TextView>(R.id.recordatorioAsignatura)
         val notifiacionTextView = view.findViewById<TextView>(R.id.recordatorioNotificacion)
 
-        val dia = recordatorio.getFechaRecordatorio().get(Calendar.DAY_OF_MONTH).toString()
-        val mes = recordatorio.getFechaRecordatorio().get(Calendar.MONTH)
-        val year = recordatorio.getFechaRecordatorio().get(Calendar.YEAR).toString()
-        val hora = recordatorio.getFechaRecordatorio().get(Calendar.HOUR_OF_DAY).toString()
-        val minuto = recordatorio.getFechaRecordatorio().get(Calendar.MINUTE).toString()
+        val fecha = recordatorio.getFecha()
+        val dia = fecha.get(Calendar.DAY_OF_MONTH).toString()
+        val mes = fecha.get(Calendar.MONTH)
+        val year = fecha.get(Calendar.YEAR).toString()
+        val hora = fecha.get(Calendar.HOUR_OF_DAY).toString()
+        val minuto = fecha.get(Calendar.MINUTE).toString()
         val symbols = DateFormatSymbols(Locale("es", "ES"))
         val nombreMes = symbols.months[mes]
 
         nombreTextView.text = recordatorio.getNombre()
-        asignaturaTextView.text = recordatorio.getAsignatura()
+        asignaturaTextView.text = recordatorio.getCategoria()
         notifiacionTextView.text = dia + " de " + nombreMes + " de " + year +"  "+ hora+":"+minuto
 
         return view

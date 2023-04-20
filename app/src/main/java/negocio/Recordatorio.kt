@@ -6,35 +6,60 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Recordatorio {
     private lateinit var nombre: String
-    private lateinit var asignatura: String
+    private lateinit var categoria: String
     private lateinit var descripcion: String
-    private var fechaRecordatorio = Calendar.getInstance()
+    private lateinit var fecha: Calendar
 
-    companion object{
+    private var recordDB = RecordatorioDB()
+    constructor(nombre: String, categoria: String, descripcion: String = "", fecha: Calendar){
+
+        this.nombre = nombre.trim()
+        this.categoria = categoria.trim()
+        this.descripcion = descripcion
+        this.fecha = fecha
+    }
+    companion object {
         private val rDBaux = RecordatorioDB()
-        private lateinit var aux : ArrayList<Recordatorio>
+        private lateinit var aux: ArrayList<Recordatorio>
 
-        fun listarTodas(): ArrayList<Recordatorio>{
+        fun listarTodas(): ArrayList<Recordatorio> {
+            val launch = CoroutineScope(Dispatchers.IO).launch {
+                aux = rDBaux.listarTodas()
+                return@launch
+            }
+            while (!launch.isCompleted) {
+            }
 
             return aux
         }
+    }
+    fun guardar(): Boolean {
+        return recordDB.guardar(this);
+    }
+
+    suspend fun existe(): Boolean{
+        return recordDB.existe(this);
+    }
+
+    fun getDescripcion(): String{
+        return descripcion
     }
 
     fun getNombre(): String{
         return nombre
     }
 
-    fun getAsignatura(): String{
-        return asignatura
+    fun getCategoria() : String{
+        return categoria
     }
 
-    fun getFechaRecordatorio(): Calendar{
-        return fechaRecordatorio
+    fun getFecha(): Calendar{
+        return fecha
     }
-
 
 
 }
