@@ -60,6 +60,7 @@ class FormActivityRecordatorio : AppCompatActivity(){
             calendar.set(Calendar.HOUR_OF_DAY,hourOfDay)
             calendar.set(Calendar.MINUTE,minute)
             calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
         }
     }
 

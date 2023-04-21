@@ -6,6 +6,7 @@ import negocio.Recordatorio
 import negocio.Tarea
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class RecordatorioDB {
 
@@ -20,7 +21,10 @@ class RecordatorioDB {
 
     fun guardar(r: Recordatorio): Boolean {
 
-        val timestamp = r.getFecha().time.time
+
+        r.getFecha().set(Calendar.SECOND, 0)
+        r.getFecha().set(Calendar.MILLISECOND, 0)
+        val timestamp = r.getFecha().timeInMillis
         val id = "${r.getNombre()}-${r.getCategoria()}-${timestamp.toString()}".uppercase().trim()
         try {
             SingletonDataBase.getInstance().getDB().collection(myCol).document(id).set(
@@ -38,7 +42,7 @@ class RecordatorioDB {
         return true
     }
     suspend fun existe(r: Recordatorio): Boolean {
-        val id = "${r.getNombre()}-${r.getCategoria()}-${r.getFecha().time}".uppercase().trim()
+        val id = "${r.getNombre()}-${r.getCategoria()}-${r.getFecha().timeInMillis.toString()}".uppercase().trim()
         val doc = SingletonDataBase.getInstance().getDB().collection(myCol).document(id).get().await()
         return doc.exists()
     }
