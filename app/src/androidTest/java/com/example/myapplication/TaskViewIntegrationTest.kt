@@ -23,4 +23,13 @@ class TaskListViewIntegrationTest {
             )
         )
     }
+    @Test
+    fun testTaskDetailsDisplayed() {
+        // Verifica que la lista se puede ver
+        Espresso.onView(ViewMatchers.withId(R.id.detalleTareaFragment)).check(
+            ViewAssertions.matches(
+                ViewMatchers.isDisplayed()
+            )
+        )
+    }
 }
