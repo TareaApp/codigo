@@ -1,5 +1,6 @@
 package integracion
 
+import android.util.Log
 import kotlinx.coroutines.tasks.await
 import negocio.Recordatorio
 import negocio.Tarea
@@ -20,7 +21,7 @@ class RecordatorioDB {
     fun guardar(r: Recordatorio): Boolean {
 
         val timestamp = r.getFecha().time.time
-        val id = "${r.getNombre()}-${r.getCategoria()}-${timestamp}".uppercase().trim()
+        val id = "${r.getNombre()}-${r.getCategoria()}-${timestamp.toString()}".uppercase().trim()
         try {
             SingletonDataBase.getInstance().getDB().collection(myCol).document(id).set(
                 hashMapOf(

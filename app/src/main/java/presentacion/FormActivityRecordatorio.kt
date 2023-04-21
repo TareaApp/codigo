@@ -85,7 +85,7 @@ class FormActivityRecordatorio : AppCompatActivity(){
             r = Recordatorio (
                 nombreRec.text.toString(),
                 categoriaRec.text.toString(),
-                descripcionRec.toString(),
+                descripcionRec.text.toString(),
                 calendar
             )
 
