@@ -1,10 +1,5 @@
 package presentacion
 
-import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CalendarView
@@ -13,7 +8,6 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
-import integracion.MyNotificationReceiver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,33 +67,9 @@ class FormActivityRecordatorio : AppCompatActivity(){
     private fun fechaValida() :Boolean{
         return calendar.get(Calendar.YEAR)>=year && (calendar.get(Calendar.MONTH)+1 > month || (calendar.get(Calendar.MONTH)+1== month && calendar.get(Calendar.DAY_OF_MONTH)>=dayOfMonth))
     }
-
-    @SuppressLint("UnspecifiedImmutableFlag")
-    private fun notifica(rr : Recordatorio) : Unit{
-
-        val calendar2 = Calendar.getInstance().apply {//esto es de prueba, sustiruye calendar2.timeInMillis
-            set(Calendar.YEAR, 2023)                             //a rr.getFecha().timeInMillis o calendar.timeInMillis
-            set(Calendar.MONTH, 3) // Note: Month is zero-based (i.e. January is 0)
-            set(Calendar.DAY_OF_MONTH, 22)
-            set(Calendar.HOUR_OF_DAY, 14)
-            set(Calendar.MINUTE, 3)
-            set(Calendar.SECOND, 0)
-        }
-
-        val intent = Intent(this, MyNotificationReceiver::class.java).apply {
-            putExtra("channelId"+rr.getNombre(), "my_channel_id"+rr.getNombre())
-            putExtra("title", rr.getNombre())
-            putExtra("message", "La tarea "+rr.getNombre()+" esta a punto de empezar")
-        }
-
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.timeInMillis, pendingIntent)
-    }
     fun sendFormButtonRec (buttonToForm: View){
 
         var valido = true;
-        var tmp = false;
 
         if (nombreRec.text.toString().trim() == "") {
             nombreRec.error = "Requerido"
@@ -110,9 +80,8 @@ class FormActivityRecordatorio : AppCompatActivity(){
             valido = false
         }
 
-        if (!valido) {
-            Toast.makeText(applicationContext, msg_formImcompleto, Toast.LENGTH_LONG).show()
-        }
+        if (!valido)
+            Toast.makeText(applicationContext, msg_formImcompleto , Toast.LENGTH_LONG).show()
         else {
             r = Recordatorio (
                 nombreRec.text.toString(),
@@ -136,7 +105,6 @@ class FormActivityRecordatorio : AppCompatActivity(){
                                 .show()
                         }
                     } else {
-                        notifica(r)
                         r.guardar()
 
                         runOnUiThread {
