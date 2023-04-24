@@ -75,26 +75,20 @@ class FormActivityRecordatorio : AppCompatActivity(){
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun notifica(rr : Recordatorio) : Unit{
+    private suspend fun notifica(rr : Recordatorio) : Unit{
 
-        val calendar2 = Calendar.getInstance().apply {//esto es de prueba, sustiruye calendar2.timeInMillis
-            set(Calendar.YEAR, 2023)                             //a rr.getFecha().timeInMillis o calendar.timeInMillis
-            set(Calendar.MONTH, 3) // Note: Month is zero-based (i.e. January is 0)
-            set(Calendar.DAY_OF_MONTH, 22)
-            set(Calendar.HOUR_OF_DAY, 14)
-            set(Calendar.MINUTE, 3)
-            set(Calendar.SECOND, 0)
+        if(fechaValida() && !r.existe()) {
+            val intent = Intent(this, MyNotificationReceiver::class.java).apply {
+                putExtra("channelId", "my_channel_id")
+                putExtra("title", rr.getNombre())
+                putExtra("message", "La tarea " + rr.getNombre() + " esta a punto de empezar")
+            }
+
+            val pendingIntent =
+                PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, rr.getFecha().timeInMillis, pendingIntent)
         }
-
-        val intent = Intent(this, MyNotificationReceiver::class.java).apply {
-            putExtra("channelId"+rr.getNombre(), "my_channel_id"+rr.getNombre())
-            putExtra("title", rr.getNombre())
-            putExtra("message", "La tarea "+rr.getNombre()+" esta a punto de empezar")
-        }
-
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.timeInMillis, pendingIntent)
     }
     fun sendFormButtonRec (buttonToForm: View){
 
@@ -123,6 +117,9 @@ class FormActivityRecordatorio : AppCompatActivity(){
 
             CoroutineScope(Dispatchers.IO).launch {
 
+
+                notifica(r)
+
                 if (!fechaValida()){
                     runOnUiThread {
                         Toast.makeText(applicationContext, msg_FechaInvalida, Toast.LENGTH_LONG)
@@ -136,7 +133,6 @@ class FormActivityRecordatorio : AppCompatActivity(){
                                 .show()
                         }
                     } else {
-                        notifica(r)
                         r.guardar()
 
                         runOnUiThread {
