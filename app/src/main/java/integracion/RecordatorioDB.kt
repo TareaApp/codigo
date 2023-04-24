@@ -3,8 +3,7 @@ package integracion
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import negocio.Recordatorio
-import negocio.Tarea
-import java.util.*
+import java.util.Calendar
 import kotlin.collections.ArrayList
 
 class RecordatorioDB {
@@ -51,10 +50,12 @@ class RecordatorioDB {
     }
 
     private fun toRecordatorio(doc: QueryDocumentSnapshot):Recordatorio{
-        var r = Recordatorio(doc.get(myNombre) as String, doc.get(myCategoria) as String, doc.get(myDescripcion) as String,
-            doc.get(myFecha) as Calendar)
-            //DUDA, cómo manejo esto
 
+        var cal = Calendar.getInstance()
+        cal.setTime(doc.getDate(myFecha))
+
+        var r = Recordatorio(doc.get(myNombre) as String, doc.get(myCategoria) as String,
+            doc.get(myDescripcion) as String, cal)
         return r
     }
 }
