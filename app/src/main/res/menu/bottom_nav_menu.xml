@@ -4,12 +4,12 @@
     <item android:title=""
         android:id="@+id/navbar_calendario" />
     <item android:title=""
-        android:id="@+id/navbar_horario"
-        />
-    <item android:title=""
-        android:id="@+id/navbar_recordatorio"
-        />
-    <item android:title="Lista tareas"
-        android:id="@+id/navbar_lista"
-        android:icon="@drawable/baseline_format_list_numbered_24"/>
+        android:id="@+id/navbar_horario"/>
+    <!--android:icon="@drawable/baseline_watch_later_24"-->
+<item android:title="Recordatorio"
+    android:id="@+id/navbar_recordatorio"
+    android:icon="@drawable/baseline_doorbell_24"/>
+<item android:title="Lista tareas"
+    android:id="@+id/navbar_lista"
+    android:icon="@drawable/baseline_format_list_numbered_24"/>
 </menu>
