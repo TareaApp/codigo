@@ -1,33 +1,22 @@
 package com.example.myapplication
 
-import android.util.Log
-import android.os.Bundle
-import integracion.SingletonDataBase
 import integracion.TareaDB
 import io.mockk.coEvery
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import negocio.Tarea
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 import java.util.Calendar
-import presentacion.DetalleTareaFragment
 import java.util.*
-import java.util.regex.Pattern.matches
 
 class TareaTest {
 
     var tDB = mockk<TareaDB>()
 
-    lateinit var tar: Tarea
     lateinit var tar1: Tarea
     lateinit var tar2: Tarea
     lateinit var tar3: Tarea
@@ -61,7 +50,6 @@ class TareaTest {
         lista.add(tar1)
         lista.add(tar2)
         lista.add(tar3)
-        tar = Tarea()
         tarP = Tarea("hola", "cat", 1, 1, "Descrfioc", false)
     }
 
@@ -81,13 +69,6 @@ class TareaTest {
         var si = tar.planificar();
         assertFalse(si)
     }
-
-    
-    @Before
-    fun setUp(){
-
-    }
-
 
     @Test
     fun test_Tarea_Existe() = runBlocking {
@@ -118,19 +99,17 @@ class TareaTest {
         coEvery { tDB.listarTodas()} returns ArrayList<Tarea>()
         val resultList = tDB.listarTodas()
         assertNotNull(resultList)
-        every { runBlocking { tarDB.listarTodas() } } returns ArrayList<Tarea>()
-        assertNotNull(tarDB.listarTodas())
     }
 
     @Test
     fun test_Comprobar_Completar_Tarea_Marcar_Completada(){
-        every { tarDB.completar(tar, true) } returns Unit
+        every { tDB.completar(tar, true) } returns Unit
         assertTrue(true)
     }
 
     @Test
     fun test_Comprobar_Completar_Tarea_Marcar_No_Completada(){
-        every { tarDB.completar(tarP, false) } returns Unit
+        every { tDB.completar(tarP, false) } returns Unit
         assertFalse(false)
     }
 
