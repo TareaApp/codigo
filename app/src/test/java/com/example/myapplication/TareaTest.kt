@@ -56,8 +56,7 @@ class TareaTest {
         lista.add(tar1)
         lista.add(tar2)
         lista.add(tar3)
-    fun setUp(){
-        tar = Tarea()
+
     }
 
     @Test
