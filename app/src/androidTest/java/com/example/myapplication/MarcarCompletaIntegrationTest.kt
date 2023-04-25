@@ -22,7 +22,7 @@ class MarcarCompletaIntegrationTest {
     @Before
     fun setUp(){
         fecha = Date(100)
-        tarAux = Tarea("Nombre123456", "Asignatura123456", 11, 11, "Descripcion1", fecha, false)
+        tarAux = Tarea("Nombre123456", "Asignatura123456", 11, 11, "Descripcion1",  false)
     }
 
     @Test

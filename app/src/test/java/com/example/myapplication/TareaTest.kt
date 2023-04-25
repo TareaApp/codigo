@@ -30,7 +30,7 @@ class TareaTest {
     @Before
     fun setUp(){
         tar = Tarea()
-        tarP = Tarea("hola", "cat", 1, 1, "Descrfioc", null, false)
+        tarP = Tarea("hola", "cat", 1, 1, "Descrfioc", false)
     }
 
 
@@ -78,7 +78,7 @@ class TareaTest {
 
     @Test
     fun test_Getters_Ver_Detalles_Tarea() {
-        val tarea = Tarea("Tarea 1", "Asignatura 1", 2, 30, "Descripción de la tarea 1")
+        val tarea = Tarea("Tarea 1", "Asignatura 1", 2, 30, "Descripción de la tarea 1",true)
         assertEquals("Tarea 1", tarea.getNombre())
         assertEquals("Asignatura 1", tarea.getAsignatura())
         assertEquals("Descripción de la tarea 1", tarea.getDescription())
