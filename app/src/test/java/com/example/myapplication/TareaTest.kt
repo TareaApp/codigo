@@ -2,13 +2,16 @@ package com.example.myapplication
 
 import android.util.Log
 import android.os.Bundle
+import integracion.SingletonDataBase
 import integracion.TareaDB
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import negocio.Tarea
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 
@@ -28,13 +31,15 @@ class TareaTest {
     lateinit var tar1: Tarea
     lateinit var tar2: Tarea
     lateinit var tar3: Tarea
+    lateinit var tar : Tarea
+    lateinit var tarP : Tarea
     var lista = mutableListOf<Tarea>()
 
     @Before
     fun setUp() {
         var c = Calendar.getInstance()
         c.set(2023,4,10,13,10);
-        tar = Tarea("Tar", "Asig", 0, 20, "Original", )
+        tar = Tarea("Tar", "Asig", 0, 20, "Original", false)
         tar.setPlan(c)
 
         var c1 = Calendar.getInstance()
@@ -42,21 +47,22 @@ class TareaTest {
         var c3 = Calendar.getInstance()
 
         c1.set(2023,4,10,12,25)
-        tar1 = Tarea("Tar1", "Asig1", 1, 20, "1º")
+        tar1 = Tarea("Tar1", "Asig1", 1, 20, "1º", false)
         tar1.setPlan(c1)
 
         c2.set(2023,4,10,14,0)
-        tar2 = Tarea("Tar2", "Asig2", 0, 30, "2º")
+        tar2 = Tarea("Tar2", "Asig2", 0, 30, "2º", false)
         tar2.setPlan(c2)
 
         c3.set(2023,4,11,17,30)
-        tar3 = Tarea("Tar3", "Asig3", 1, 0, "3º")
+        tar3 = Tarea("Tar3", "Asig3", 1, 0, "3º", false)
         tar3.setPlan(c3)
 
         lista.add(tar1)
         lista.add(tar2)
         lista.add(tar3)
-
+        tar = Tarea()
+        tarP = Tarea("hola", "cat", 1, 1, "Descrfioc", false)
     }
 
     @Test
@@ -75,6 +81,13 @@ class TareaTest {
         var si = tar.planificar();
         assertFalse(si)
     }
+
+    
+    @Before
+    fun setUp(){
+
+    }
+
 
     @Test
     fun test_Tarea_Existe() = runBlocking {
@@ -105,11 +118,25 @@ class TareaTest {
         coEvery { tDB.listarTodas()} returns ArrayList<Tarea>()
         val resultList = tDB.listarTodas()
         assertNotNull(resultList)
+        every { runBlocking { tarDB.listarTodas() } } returns ArrayList<Tarea>()
+        assertNotNull(tarDB.listarTodas())
+    }
+
+    @Test
+    fun test_Comprobar_Completar_Tarea_Marcar_Completada(){
+        every { tarDB.completar(tar, true) } returns Unit
+        assertTrue(true)
+    }
+
+    @Test
+    fun test_Comprobar_Completar_Tarea_Marcar_No_Completada(){
+        every { tarDB.completar(tarP, false) } returns Unit
+        assertFalse(false)
     }
 
     @Test
     fun test_Getters_Ver_Detalles_Tarea() {
-        val tarea = Tarea("Tarea 1", "Asignatura 1", 2, 30, "Descripción de la tarea 1")
+        val tarea = Tarea("Tarea 1", "Asignatura 1", 2, 30, "Descripción de la tarea 1",true)
         assertEquals("Tarea 1", tarea.getNombre())
         assertEquals("Asignatura 1", tarea.getAsignatura())
         assertEquals("Descripción de la tarea 1", tarea.getDescription())

@@ -14,16 +14,16 @@ class Tarea {
     private lateinit var descripcion: String
     private var hora = 0
     private var minutos: Int = 0
-
     private var fechaPlan : Calendar? = null
     private var tDB = TareaDB()
-
-    constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = ""){
+    private var completada: Boolean = false
+    constructor(nombre: String, asignatura: String, hora: Int, minutos: Int, descripcion: String = "", completada : Boolean){
         this.nombre = nombre.trim()
         this.asignatura = asignatura.trim()
         this.hora = hora
         this.minutos = minutos
         this.descripcion = descripcion
+        this.completada = completada
     }
 
     constructor()
@@ -38,6 +38,11 @@ class Tarea {
     }
     fun guardar(): Boolean{
         return tDB.guardar(this)
+    }
+
+    fun completar(completado: Boolean){
+        this.completada = completado //Para test de integracion
+        return tDB.completar(this, completado)
     }
 
     companion object{
@@ -55,6 +60,17 @@ class Tarea {
 
             return aux
         }
+
+        fun agregarAtributo() {
+
+            val launch = CoroutineScope(Dispatchers.IO).launch {
+                tDBaux.agregarAtributo()
+                return@launch
+            }
+
+            while(!launch.isCompleted){}
+
+        }
     }
 
     fun getNombre(): String{
@@ -65,6 +81,10 @@ class Tarea {
     }
     fun getAsignatura(): String{
         return asignatura
+    }
+
+    fun getCompletada(): Boolean{
+        return completada
     }
 
     fun getHora(): Int{

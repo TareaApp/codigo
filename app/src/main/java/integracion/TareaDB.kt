@@ -1,5 +1,6 @@
 package integracion
 
+import android.widget.Toast
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import negocio.Tarea
@@ -16,6 +17,7 @@ class TareaDB {
     private val myHora = "Duracion Horas"
     private val myMinuto = "Duracion Minutos"
     private val myPlanificacion = "Planificacion"
+    private val myCompletada = "Completada"
 
 
     constructor(){
@@ -40,7 +42,8 @@ class TareaDB {
                         myDescripcion to t.getDescription(),
                         myHora to t.getHora(),
                         myMinuto to t.getMinuto(),
-                        myPlanificacion to t.getPlan()!!.time
+                        myPlanificacion to t.getPlan()!!.time,
+                        myCompletada to t.getCompletada()
                     )
                 )
             }
@@ -83,7 +86,25 @@ class TareaDB {
         return tareas
     }
 
+    fun completar(t: Tarea, completado: Boolean){
+        val tareaRef = SingletonDataBase.getInstance().getDB().collection(myCol).document("${t.getNombre()}-${t.getAsignatura()}".uppercase())
+        tareaRef.update(myCompletada, completado).addOnSuccessListener {
+            println("se ha completado con exito")
+        }.addOnFailureListener { e ->
+            println("no se ha completado")
+        }
+    }
+
+    suspend fun agregarAtributo(){
+        var lista = ArrayList<Tarea>()
+        val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).get().await()
+        querySnapshot.forEach { doc ->
+            doc.reference.update(myCompletada, false)
+        }
+    }
+
     suspend fun listarTodas(): ArrayList<Tarea>{
+
         var lista = ArrayList<Tarea>()
         val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).orderBy(myPlanificacion).get().await()
         //val querySnapshot= SingletonDataBase.getInstance().getDB().collection(myCol).get().await()
@@ -92,17 +113,13 @@ class TareaDB {
             lista.add(tarea)
         }
 
-        return lista
+            return lista
     }
-    /**
-     * Dada una query se transforma en un objeto Tarea
-     * @param doc QueryDocumentSnapshot
-     * @author Carlos Gomes
-     * @return Delvuelve una tarea
-     */
+
     private fun toTarea(doc: QueryDocumentSnapshot):Tarea{
         var t = Tarea(doc.get(myNombre) as String, doc.get(myAsignatura) as String, (doc.get(myHora) as Long).toInt(),
-            (doc.get(myMinuto) as Long).toInt(), doc.get(myDescripcion) as String)
+            (doc.get(myMinuto) as Long).toInt(), doc.get(myDescripcion) as String, doc.get(myCompletada) as Boolean
+        )
 
         if(doc.get(myPlanificacion) != null){
             var cal = Calendar.getInstance()

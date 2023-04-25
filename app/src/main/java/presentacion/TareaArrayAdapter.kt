@@ -7,13 +7,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.R
 import negocio.Tarea
 import java.text.DateFormatSymbols
+import android.widget.CheckBox
+import android.widget.Toast
+
 import java.util.*
 
 class TareaArrayAdapter(context: Context, private val resource: Int, private val tareas: ArrayList<Tarea>) :
