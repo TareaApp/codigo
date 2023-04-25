@@ -44,16 +44,16 @@ class Tarea {
         private val tDBaux = TareaDB()
         private lateinit var aux : ArrayList<Tarea>
 
-       fun listarTodas(): ArrayList<Tarea>{
+        fun listarTodas(): ArrayList<Tarea>{
 
-           val launch = CoroutineScope(Dispatchers.IO).launch {
-               aux = tDBaux.listarTodas()
-               return@launch
-           }
+            val launch = CoroutineScope(Dispatchers.IO).launch {
+                aux = tDBaux.listarTodas()
+                return@launch
+            }
 
-           while(!launch.isCompleted){}
+            while(!launch.isCompleted){}
 
-           return aux
+            return aux
         }
     }
 

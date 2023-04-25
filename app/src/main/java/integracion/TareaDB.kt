@@ -93,7 +93,7 @@ class TareaDB {
         }
 
         return lista
-        }
+    }
     /**
      * Dada una query se transforma en un objeto Tarea
      * @param doc QueryDocumentSnapshot
@@ -111,6 +111,4 @@ class TareaDB {
         }
         return t
     }
-
-
 }
